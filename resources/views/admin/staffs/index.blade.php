@@ -35,10 +35,12 @@
                     <div class="row">
                         <div class="col-md-12">
                                 <div class="card">
+                                    @if(auth()->user()->role == '1')
                                     <div class="card-header">
-                                            <a href="#" class="btn btn-primary float-left">Bulk import staffs</a> 
-                                            <a href="{{ route('addStaff')}}" class="btn btn-success float-right">Add staff</a> 
+                                            <a href="#" class="btn btn-primary float-left">Bulk import lecturers</a> 
+                                            <a href="{{ route('addStaff')}}" class="btn btn-success float-right">Add lecturer</a> 
                                     </div>
+                                    @endif
                                         <div class="card-body">
                                             <div class="card">
                                                 @if(Session::has('success'))
@@ -53,10 +55,12 @@
                                                         <th>#</th>
                                                         <th>Name</th>   
                                                         <th>Email address</th>  
-                                                        <th>Department</th> 
-                                                        <th>Profile</th>                                      
+                                                        <th>Department</th>                                   
+                                                        @if(auth()->user()->role == '1')
+                                                        <th>Profile</th>    
                                                         <th>Edit</th>
                                                         <th>Delete</th>
+                                                        @endif
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -66,10 +70,11 @@
                                                             <td>{{ $staff->name }}</td>
                                                             <td>{{ $staff->email }}</td>
                                                             <td>{{ $staff->department->name }}</td>
-                                                            <td>{{ $staff->role != 0 ? 'Admin' : 'Staff' }}</td>
+                                                            @if(auth()->user()->role == '1')
+                                                            <td>{{ $staff->role != 0 ? 'Admin' : 'Lecturer' }}</td>
                                                             <td><a href="/auth/staffs/{{$staff->id}}" class="btn btn-warning">Edit</a></td>
                                                             <td><a href="/auth/staffs/delete/{{$staff->id}}" onclick="return confirm('Are you sure you want to delete this lecturer?')" class="btn btn-danger">Delete</a></td>
-                                                        
+                                                            @endif
                                                         </tr>
                                                     @endforeach
                                                 </tbody>

@@ -44,14 +44,27 @@
                                         <form action="{{ route('saveClass')}}" method="POST">
                                             @csrf
                                             <div class="row">
-                                                <div class="col-md-4 mb-3">
+                                                <div class="col-md-6 mb-3">
                                                     <label for="">Name</label>
                                                     <input type="text" name="name" class="form-control" placeholder="Class name (i.e First year)" />
                                                     @error('name')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-5 mb-3">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="">Programme</label>
+                                                    <select name="programme" class="form-control">
+                                                        <option value="">Select programme</option>
+                                                        @foreach($programmes as $programme)
+                                                            <option value="{{ $programme->id}}">{{ $programme->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('programme')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 mb-3">
                                                     <label for="">Collage</label>
                                                     <select name="collage" class="form-control">
                                                         <option value="">Select collage</option>
@@ -63,7 +76,7 @@
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-3 mb-3">
+                                                <div class="col-md-6 mb-3">
                                                     <label for="">Academic year</label>
                                                     <select name="year" class="form-control">
                                                         <option value="">Select academic year</option>

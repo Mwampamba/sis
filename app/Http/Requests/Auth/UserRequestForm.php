@@ -51,6 +51,18 @@ class UserRequestForm extends FormRequest
 
             'role' => [
                 'required'
+            ],
+
+            'old_password' => [
+                'required'
+            ],
+
+            'new_password' => [
+                'required'
+            ],
+
+            'confirm_password' => [
+                'required'
             ]
         ];
     }

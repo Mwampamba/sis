@@ -4,22 +4,31 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\Course;
 use App\Models\Classes;
-use App\Models\ClassCourse;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\ClassCourseRequestForm;
+use App\Models\ClassCourse;
 
 class ClassCourseController extends Controller
 {
     public function index()
     {
         $title = [
-            'title' => 'SIS | Class courses'
+            'title' => 'SIS | Class courses' 
         ];
-        // $collages = Collage::orderBy('id', 'DESC')->get();
 
-        return view('admin.class-courses.index', $title);
+        if (auth()->user()->role == '1') {
+            $class_courses = ClassCourse::join('classes', 'class_course.class_id', 'classes.id')
+                ->join('courses', 'class_course.course_id', 'courses.id')->get();
+
+            return view('admin.class-courses.index', $title, compact('class_courses'));
+        }
+        else if (auth()->user()->role == '0') {
+            $class_courses = ClassCourse::join('classes', 'class_course.class_id', 'classes.id')
+                ->join('courses', 'class_course.course_id', 'courses.id')->where('user_id', auth()->user()->id)->get();
+
+            return view('admin.class-courses.index', $title, compact('class_courses'));
+        }
     }
+
 
     public function create()
     {
@@ -32,14 +41,4 @@ class ClassCourseController extends Controller
         return view('admin.class-courses.add-class-course', $title, compact('classes', 'courses'));
     }
 
-    public function save(ClassCourseRequestForm $request)
-    {
-        $validatedData = $request->validated();
-
-        dd($validatedData);
-
-        // $courses->classes()->attach($validatedData);
-
-        return redirect()->route('classCourses')->with('success', 'Class courses has been added successfully!');
-    }
 }

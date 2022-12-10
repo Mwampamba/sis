@@ -68,7 +68,10 @@
       </form>
 
       <p class="mb-1">
-        <a href="#">I forgot my password</a>
+        <a href="{{ route('studentGetLogin')}}">Are you student? login here</a>
+      </p>
+      <p class="mb-1">
+        <a href="#">Forget password? start here</a>
       </p>
     </div>
     <!-- /.login-card-body -->

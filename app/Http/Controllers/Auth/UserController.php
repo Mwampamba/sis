@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Course;
 use App\Models\Classes;
+use App\Models\Student;
 use App\Models\Department;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\UserRequestForm;
-use App\Models\Course;
 
 class UserController extends Controller
 {
@@ -17,12 +19,59 @@ class UserController extends Controller
             'title' => 'SIS | Dashboard'
         ];
 
-        $students = User::where('role', '0')->count();
+        $students = Student::all()->count();
         $lecturers = User::all()->count();
         $classes = Classes::all()->count();
         $courses = Course::all()->count();
 
         return view('admin.dashboard', $title, compact('students', 'lecturers', 'classes', 'courses'));
+    }
+
+
+    public function profile($staff_id)
+    {
+        $title = [
+            'title' => 'SIS | Profile'
+        ];
+
+        $staff = User::findOrFail(Auth::user()->id);
+
+        return view('admin.profile', $title, compact('staff'));
+    }
+
+    public function profile_update(UserRequestForm $request, $staff_id)
+    {
+        $validatedData = $request->validated();
+
+        $user = User::findOrFail($staff_id);
+
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+        $user->phone = $validatedData['phone'];
+
+
+        $old_password = $validatedData['old_password'];
+
+        $results = User::where('password', $old_password)->get();
+        
+
+        if ($results) {
+            $new_password = $validatedData['new_password'];
+            $confirm_password = $validatedData['confirm_password'];
+
+            if ($new_password === $confirm_password) {
+                $user->password = $new_password;
+
+                $user->update();
+                return redirect()->route('profile')->with('success', 'Profile has been updated successfully!');
+            }
+
+            else {
+                return back()->with('error', 'New password MUST match!');
+            }
+        } else {
+            return back()->with('error', 'Wrong old password!');
+        }
     }
 
     public function index()

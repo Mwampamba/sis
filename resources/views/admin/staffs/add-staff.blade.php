@@ -16,12 +16,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
             <div class="col-sm-6">
-                <h3 class="m-0">Add lecturer</h3>
+                <h3 class="m-0">Lecturers</h3>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item active">Add staff</li>
+                <li class="breadcrumb-item active">Add lecturer</li>
                 </ol>
             </div><!-- /.col -->
             </div><!-- /.row -->
@@ -36,7 +36,7 @@
                         <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>Add lecturer 
+                                        <h4>Add lecturer
                                             <a href="{{ route('staffs')}}" class="btn btn-danger float-right">BACK</a> 
                                         </h4>
                                     </div>
@@ -73,15 +73,14 @@
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-                            
+
                                                 <div class="col-md-5 mb-3">
-                                                    <label for="">Department
-                                                    </label>
-                                                    <select name="department" class="form-control" >
-                                                        <option value="">Select department</option>
-                                                            @foreach ($departments as $department)
-                                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
-                                                            @endforeach
+                                                    <label for="">Department</label>
+                                                    <select name="department" class="form-control department">
+                                                        <option value="">Please, select department</option>
+                                                        @foreach ($departments as $department)
+                                                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                                        @endforeach
                                                     </select>
                                                     @error('department')
                                                         <div class="text-danger">{{ $message }}</div>

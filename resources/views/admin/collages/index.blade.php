@@ -44,6 +44,9 @@
                                                 @if(Session::has('success'))
                                                     <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
                                                  @endif
+                                                @if(Session::has('delete'))
+                                                 <div class="alert alert-danger" role="alert">{{ Session::get('delete') }}</div>
+                                                @endif
                                             <table id="myDataTable" class="table table-bordered">
                                                 <thead>
                                                     <tr>

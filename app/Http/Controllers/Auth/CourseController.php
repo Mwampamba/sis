@@ -32,7 +32,7 @@ class CourseController extends Controller
         $validatedData = $request->validated();
 
         $course = new Course();
-        $course->name = $validatedData['name'];
+        $course->title = $validatedData['name'];
         $course->code = $validatedData['code'];
         $course->credit = $validatedData['credit'];
         $course->status = $validatedData['status'];
@@ -56,7 +56,7 @@ class CourseController extends Controller
         $course = Course::findOrFail($course_id);
         $validatedData = $request->validated();
 
-        $course->name = $validatedData['name'];
+        $course->title = $validatedData['name'];
         $course->code = $validatedData['code'];
         $course->credit = $validatedData['credit'];
         $course->status = $validatedData['status'];
@@ -69,6 +69,6 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($course_id);
         $course->delete();
-        return redirect()->route('courses')->with('success', 'Course has been deleted successfully!');
-    }
+        return redirect()->route('courses')->with('delete', 'Course has been deleted successfully!');
+    } 
 }

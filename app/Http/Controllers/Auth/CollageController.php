@@ -67,7 +67,7 @@ class CollageController extends Controller
     {
         $collage = Collage::findOrFail($collage_id);
         $collage->delete();
-        return redirect()->route('collages')->with('success', 'Collage has been deleted successfully!');
+        return redirect()->route('collages')->with('delete', 'Collage has been deleted successfully!');
     }
 }
 

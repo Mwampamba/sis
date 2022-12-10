@@ -2,17 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Programme;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ClassCourse extends Model
 {
     use HasFactory;
 
-    protected $table = 'classes_course';
+    protected $table = 'class_course';
     
     protected $fillable = [
-        'classes_id',
+        'class_id',
         'course_id'
     ];
+
+    public function programme()
+    {
+        return $this->belongsTo(Programme::class);
+    }
 }

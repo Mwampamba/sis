@@ -19,30 +19,45 @@ class AdminController extends Controller
             'password' => 'required'
         ]);
 
-        $admin_validated = auth()->attempt([
+        $validated_credentials = auth()->attempt([
             'email' => $request->email,
-            'password' => $request->password,
-            'role' => 1
+            'password' => $request->password
         ]);
 
-        $lecturer_validated = auth()->attempt([
-            'email' => $request->email,
-            'password' => $request->password,
-            'role' => 0
-        ]);
-
-        if ($admin_validated) {
-            return redirect()->route('dashboard');
-        } elseif ($lecturer_validated) {
+        if ($validated_credentials) {
             return redirect()->route('dashboard');
         } else {
-            return redirect()->back()->with('error', 'Invalid credentials');
+            return redirect()->back()->with('error', 'You have entered invalid credentials');
+        }
+    }
+
+    public function student_get_login()
+    {
+        return view('admin.auth.student_login');
+    }
+
+    public function student_post_login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $validated_credentials = auth()->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ]);
+
+        if ($validated_credentials) {
+            return redirect()->route('studentDashboard');
+        } else {
+            return redirect()->back()->with('error', 'You have entered invalid credentials');
         }
     }
 
     public function logout()
     {
         auth()->logout();
-        return redirect()->route('getLogin')->with('success', 'You are now logged out');
+        return redirect()->route('getLogin');
     }
 }

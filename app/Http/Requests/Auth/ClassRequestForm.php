@@ -32,6 +32,10 @@ class ClassRequestForm extends FormRequest
             'collage' => [
                 'required'
             ],
+            
+            'programme' => [
+                'required'
+            ],
 
             'year' => [
                 'required'

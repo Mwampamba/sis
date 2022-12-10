@@ -45,12 +45,15 @@
                                             <div class="card">
                                                 @if(Session::has('success'))
                                                     <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-                                                 @endif
+                                                @endif
+                                                @if(Session::has('delete'))
+                                                 <div class="alert alert-danger" role="alert">{{ Session::get('delete') }}</div>
+                                                @endif
                                             <table id="myDataTable" class="table table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Name</th> 
+                                                        <th>Course title</th> 
                                                         <th>Code</th>
                                                         <th>Core or elective</th> 
                                                         <th>Credits</th>                                
@@ -64,7 +67,7 @@
                                                     @foreach($courses as $index=>$course)
                                                         <tr>
                                                             <td>{{ $index+1 }}</td>
-                                                            <td>{{ $course->name }}</td>
+                                                            <td>{{ $course->title }}</td>
                                                             <td>{{ $course->code }}</td>
                                                             <td>{{ $course->status == '1' ? 'Core' : 'Optional' }}</td>
                                                             <td>{{ $course->credit }}</td>

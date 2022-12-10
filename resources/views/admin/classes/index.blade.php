@@ -46,14 +46,21 @@
                                                 @if(Session::has('success'))
                                                     <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
                                                  @endif
+                                                 @if(Session::has('delete'))
+                                                    <div class="alert alert-danger" role="alert">{{ Session::get('delete') }}</div>
+                                                @endif
+                                                 @if(Session::has('delete'))
+                                                    <div class="alert alert-danger" role="alert">{{ Session::get('delete') }}</div>
+                                                @endif
                                             <table id="myDataTable" class="table table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Name</th> 
-                                                        <th>Academic year</th>  
-                                                        <th>Collage</th>                                 
+                                                        <th>Class</th> 
+                                                        <th>Programme</th>  
+                                                        <th>Academic year</th>                                 
                                                         @if(auth()->user()->role == '1')
+                                                        <th>View</th>
                                                         <th>Edit</th>
                                                         <th>Delete</th>
                                                         @endif
@@ -64,12 +71,13 @@
                                                         <tr>
                                                             <td>{{ $index+1 }}</td>
                                                             <td>{{ $class->name }}</td>
+                                                            <td>{{ $class->programme->name }}</td>
                                                             <td>{{ $class->academic_year->name }}</td>
-                                                            <td>{{ $class->collage->name }}</td>
                                                             @if(auth()->user()->role == '1')
+                                                            <td><a href="/auth/classes/view/{{$class->id}}" class="btn btn-secondary">View</a></td>
                                                             <td><a href="/auth/classes/{{$class->id}}" class="btn btn-warning">Edit</a></td>
                                                             <td><a href="/auth/classes/delete/{{$class->id}}" onclick="return confirm('Are you sure you want to delete this class?')" class="btn btn-danger">Delete</a></td>
-                                                            @endif
+                                                            @endif 
                                                         </tr>
                                                     @endforeach
                                                 </tbody>

@@ -33,7 +33,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="" class="nav-link {{ $current_route == 'students'?'active':''}}">
+                <a href="{{ route('students')}}" class="nav-link {{ $current_route == 'students'?'active':''}}">
                   <i class="nav-icon fa fa-user-graduate"></i>
                   <p>Manage students</p>
                 </a>
@@ -48,8 +48,6 @@
               </li>
             </ul>
           </li>
-
-          @endif
   
           <li class="nav-header">CLASSES</li>
                <li class="nav-item {{ $current_route == 'classes'?'menu-open':''}}">
@@ -69,6 +67,7 @@
               </li>
             </ul>
           </li>
+          @endif
           <li class="nav-header">COURSES</li>
           <li class="nav-item {{ $current_route == 'courses'?'menu-open':''}}">
                 <a href="" class="nav-link {{ $current_route == 'courses'?'active':''}}">
@@ -79,13 +78,14 @@
               </p>
               </a>
        <ul class="nav nav-treeview">
+        @if(auth()->user()->role == '1')
          <li class="nav-item">
            <a href="{{ route('courses')}}" class="nav-link {{ $current_route == 'courses'?'active':''}}">
              <i class="nav-icon fas fa-building"></i>
              <p>Manage courses</p>
            </a>
          </li>
-
+         @endif
          @if(auth()->user()->role == '1')
          <li class="nav-item">
           <a href="{{route('classCourses')}}" class="nav-link {{ $current_route == 'classCourses'?'active':''}}">
@@ -93,18 +93,19 @@
             <p>Class courses</p>
           </a>
         </li>
+        @endif
          <li class="nav-item">
-           <a href="#" class="nav-link {{ $current_route == 'bulkAdd'?'active':''}}">
+           <a href="{{ route('lecturerCourses')}}" class="nav-link {{ $current_route == 'lecturerCourses'?'active':''}}">
              <i class="nav-icon fa fa-bars"></i>
              <p>Lecturer courses</p>
            </a>
          </li>
-         @endif
        </ul>
      </li>
+      @if(auth()->user()->role == '1')
     <li class="nav-header">EXAMINATIONS</li>
-          <li class="nav-item {{ $current_route == 'exams'?'menu-open':''}}">
-              <a href="#" class="nav-link {{ $current_route == 'exams'?'active':''}}">
+          <li class="nav-item {{ $current_route == 'examTypes'?'menu-open':''}}">
+              <a href="#" class="nav-link {{ $current_route == 'examTypes'?'active':''}}">
               <i class="nav-icon fas fa-server"></i>
               <p>
                 Examinations
@@ -113,43 +114,43 @@
               </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="" class="nav-link {{ $current_route == 'exams'?'active':''}}">
+            <a href="{{ route('examTypes')}}" class="nav-link {{ $current_route == 'examTypes'?'active':''}}">
               <i class="nav-icon fas fa-server"></i>
-              <p>Exam types</p>
+              <p>Examination types</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link {{ $current_route == 'exams'?'active':''}}">
+            <a href="{{ route('examinations')}}" class="nav-link {{ $current_route == 'examinations'?'active':''}}">
               <i class="nav-icon fas fa-server"></i>
-              <p>Exam definitions</p>
+              <p>Manage examinations</p>
             </a>
           </li>
     </ul>
- 
+ @endif
     <li class="nav-header">MARKS</li>
-          <li class="nav-item {{ $current_route == 'marks'?'menu-open':''}}">
-              <a href="#" class="nav-link {{ $current_route == 'marks'?'active':''}}">
-              <i class="nav-icon fas fa-server"></i>
-              <p>
-                Marks
-                <i class="right fas fa-angle-left"></i>
-              </p>
-              </a>
-        <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="" class="nav-link {{ $current_route == 'marks'?'active':''}}">
-              <i class="nav-icon fas fa-server"></i>
-              <p>Manage marks</p>
-            </a>
-          </li>
+      <li class="nav-item {{ $current_route == 'examinations'?'menu-open':''}}">
+          <a href="#" class="nav-link {{ $current_route == 'examinations'?'active':''}}">
+          <i class="nav-icon fas fa-server"></i>
+          <p>
+            Marks
+            <i class="right fas fa-angle-left"></i>
+          </p>
+          </a>
+    <ul class="nav nav-treeview">
+      <li class="nav-item">
+        <a href="{{ route('examinations')}}" class="nav-link {{ $current_route == 'examinations'?'active':''}}">
+          <i class="nav-icon fas fa-server"></i>
+          <p>Manage marks</p>
+        </a>
+      </li>
   </ul>
 
-  <li class="nav-header">RESULTS</li>
+  <li class="nav-header">REPORTS</li>
   <li class="nav-item {{ $current_route == 'results'?'menu-open':''}}">
       <a href="#" class="nav-link {{ $current_route == 'results'?'active':''}}">
       <i class="nav-icon fas fa-server"></i>
       <p>
-        Results
+        Reports/ Transcripts
         <i class="right fas fa-angle-left"></i>
       </p>
       </a>
@@ -157,11 +158,10 @@
   <li class="nav-item">
     <a href="" class="nav-link {{ $current_route == 'results'?'active':''}}">
       <i class="nav-icon fas fa-server"></i>
-      <p>Manage results</p>
+      <p>Manage reports</p>
     </a>
   </li>
 </ul>
-
 @if(auth()->user()->role == '1')
 <li class="nav-header">GRADES</li>
 <li class="nav-item {{ $current_route == 'grades'?'menu-open':''}}">
@@ -282,7 +282,7 @@
       <li class="nav-item">
     </li>
   </ul>
-@endif
+  @endif
   </nav>
   </div>
 </aside>

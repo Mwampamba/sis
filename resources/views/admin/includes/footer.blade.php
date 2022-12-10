@@ -54,6 +54,10 @@
     $('#myDataTable').DataTable();
     $('.courses').select2();
     $('.classes').select2();
+    $('.lecturers').select2(); 
+    $('.department').select2(); 
+    $('.collage').select2(); 
+    $('.programme').select2(); 
   });
 </script>
 </body>

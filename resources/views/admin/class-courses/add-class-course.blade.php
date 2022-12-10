@@ -49,7 +49,7 @@
                                                     <select name="classes[]" class="form-control classes" multiple="multiple">
                                                         
                                                         @foreach($classes as $class)
-                                                            <option value="{{ $class->id }}">{{ $class->name }}[{{ $class->collage->name }}]</option>
+                                                            <option value="{{ $class->id }}">{{ $class->name }} -- {{ $class->programme->name }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('classes')

@@ -18,16 +18,15 @@
           <!-- User image -->
           <li class="user-header bg-primary">
             <img src="{{asset('admin-assets/dist/img/logo.png')}}" class="img-circle elevation-2" alt="User Image">
-
             <p>
-              {{-- {{Auth::user()->empl_name}} --}}
+              {{Auth::user()->name}}
             </p>
           </li>
             <!-- /.row -->
           </li>
           <!-- Menu Footer-->
           <li class="user-footer">
-            <a href="#" class="btn btn-primary btn-flat">Profile</a>
+            <a href="{{ url('/auth/profile/'.Auth::user()->id)}}" class="btn btn-primary btn-flat">Profile</a>
             <a href="{{ route('logout')}}" class="btn btn-danger btn-flat float-right">Sign out</a>
           </li>
         </ul>

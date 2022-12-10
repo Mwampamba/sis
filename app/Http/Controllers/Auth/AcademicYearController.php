@@ -14,7 +14,7 @@ class AcademicYearController extends Controller
             'title' => 'SIS | Academic years'
         ];
         $years = AcademicYear::orderBy('id', 'DESC')->get();
-        return view('admin.academic_years.index', $title, compact('years'));
+        return view('admin.academic-years.index', $title, compact('years'));
     }
 
     public function create()
@@ -23,7 +23,7 @@ class AcademicYearController extends Controller
             'title' => 'SIS | Add academic year'
         ];
 
-        return view('admin.academic_years.add-year', $title);
+        return view('admin.academic-years.add-year', $title);
     }
 
     public function save(AcademicYearRequestForm $request)
@@ -46,7 +46,7 @@ class AcademicYearController extends Controller
         ];
 
         $year = AcademicYear::findOrFail($year_id);
-        return view('admin.academic_years.edit-year', $title, compact('year'));
+        return view('admin.academic-years.edit-year', $title, compact('year'));
     }
 
     public function update(AcademicYearRequestForm $request, $year_id)
@@ -66,6 +66,6 @@ class AcademicYearController extends Controller
     {
         $year = AcademicYear::findOrFail($year_id);
         $year->delete();
-        return redirect()->route('academicYears')->with('success', 'Academic year has been deleted successfully!');
+        return redirect()->route('academicYears')->with('delete', 'Academic year has been deleted successfully!');
     }
 }

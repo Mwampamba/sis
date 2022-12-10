@@ -37,8 +37,8 @@
                                 <div class="card">
                                     @if(auth()->user()->role == '1')
                                     <div class="card-header">
-                                        <a href="#" class="btn btn-primary float-left">Bulk import class courses</a> 
-                                            <a href="{{ route('addClassCourses') }}" class="btn btn-success float-right">Add class courses</a> 
+                                        <a href="#" class="btn btn-primary float-left">Bulk import courses in class</a> 
+                                            <a href="{{ route('addClassCourses') }}" class="btn btn-success float-right">Add courses in class</a> 
                                     </div>
                                     @endif
                                         <div class="card-body">
@@ -46,36 +46,34 @@
                                                 @if(Session::has('success'))
                                                     <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
                                                  @endif
-                                            <table id="myDataTable" class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Class name</th> 
-                                                        <th>Course name</th>
-                                                        <th>Course code</th> 
-                                                        <th>Credits</th>                                
-                                                        @if(auth()->user()->role == '1')
-                                                        <th>Edit</th>
-                                                        <th>Delete</th>
-                                                        @endif
-                                                    </tr>
-                                                </thead>
-                                                {{-- <tbody>
-                                                    @foreach($courses as $index=>$course)
+                                                 <table id="myDataTable" class="table table-bordered">
+                                                    <thead>
                                                         <tr>
-                                                            <td>{{ $index+1 }}</td>
-                                                            <td>{{ $course->name }}</td>
-                                                            <td>{{ $course->code }}</td>
-                                                            <td>{{ $course->status == '1' ? 'Core' : 'Optional' }}</td>
-                                                            <td>{{ $course->credit }}</td>
+                                                            <th>#</th>
+                                                            <th>Course title</th> 
+                                                            <th>Class name</th>  
+                                                            <th>Programme of study</th>                             
                                                             @if(auth()->user()->role == '1')
-                                                            <td><a href="/auth/courses/{{$course->id}}" class="btn btn-warning">Edit</a></td>
-                                                            <td><a href="/auth/courses/delete/{{$course->id}}" onclick="return confirm('Are you sure you want to delete this course?')" class="btn btn-danger">Delete</a></td>
+                                                            <th>Edit</th>
+                                                            <th>Delete</th>
                                                             @endif
                                                         </tr>
-                                                    @endforeach
-                                                </tbody> --}}
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($class_courses as $index=>$data)
+                                                            <tr>
+                                                                <td>{{ $index+1 }}</td>
+                                                                <td>{{ $data->title }}</td>
+                                                                <td>{{ $data->name }}</td>
+                                                                <td>{{ $data->programme->name }}</td>
+                                                                @if(auth()->user()->role == '1')
+                                                                <td><a href="#" class="btn btn-warning">Edit</a></td>
+                                                                <td><a href="#" onclick="return confirm('Are you sure you want to delete this data?')" class="btn btn-danger">Delete</a></td>
+                                                                @endif
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
                                         </div>
                                 </div>
                         </div>
