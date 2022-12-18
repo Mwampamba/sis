@@ -15,7 +15,7 @@ class Course extends Model
     protected $table = 'courses';
     
     protected $fillable = [
-        'name',
+        'title',
         'code',
         'credit',
         'status'
@@ -23,7 +23,7 @@ class Course extends Model
 
     public function classes()
     {
-        return $this->belongsToMany(Classes::class);
+        return $this->belongsToMany(Classes::class, 'class_courses', 'course_id', 'class_id');
     }
 
     public function lecturers()
@@ -31,8 +31,4 @@ class Course extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function examination_marks()
-    {
-        return $this->hasMany(ExaminationMark::class);
-    }
 }

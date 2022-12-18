@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClassExamination extends Model
 {
-    use HasFactory;
-    protected $table = 'class_examination';
+    use HasFactory; 
+
+    protected $table = 'class_examinations';
     
     protected $fillable = [
         'class_id',

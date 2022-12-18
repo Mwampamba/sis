@@ -36,7 +36,7 @@
                         <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>Add lecturer
+                                        <h4>
                                             <a href="{{ route('staffs')}}" class="btn btn-danger float-right">BACK</a> 
                                         </h4>
                                     </div>

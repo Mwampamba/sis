@@ -41,19 +41,12 @@
                                     </div>
                                         <div class="card-body">
                                             <div class="card">
-                                                @if(Session::has('success'))
-                                                    <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-                                                 @endif
-                                                 @if(Session::has('delete'))
-                                                    <div class="alert alert-danger" role="alert">{{ Session::get('delete') }}</div>
-                                                @endif
                                             <table id="myDataTable" class="table table-bordered">
                                                 <thead>
                                                     <tr> 
                                                         <th>#</th>
                                                         <th>Examination name</th>
-                                                        <th>Description</th>  
-                                                        <th>Status</th>                                      
+                                                        <th>Description</th>                                       
                                                         <th>Edit</th>
                                                         <th>Delete</th>
                                                     </tr>
@@ -64,7 +57,7 @@
                                                             <td>{{ $index+1 }}</td>
                                                             <td>{{ $exam->exam_type }}</td>
                                                             <td>{{ $exam->description }}</td>
-                                                            <td>{{ $exam->status == 1 ? 'Active' : 'Not active' }}</td>
+                                                            {{-- <td>{{ $exam->status == 1 ? 'Active' : 'Not active' }}</td> --}}
                                                             <td><a href="/auth/exam-type/{{$exam->id}}" class="btn btn-warning">Edit</a></td>
                                                             <td><a href="/auth/exam-type/delete/{{$exam->id}}" onclick="return confirm('Are you sure you want to delete this examination?')" class="btn btn-danger">Delete</a></td>
                                                         </tr>

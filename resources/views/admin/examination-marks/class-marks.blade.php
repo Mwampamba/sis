@@ -47,31 +47,28 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Student name</th> 
-                                                        @foreach($class_courses as $course)
-                                                        <th>{{ $course->code }}</th>    
-                                                        @endforeach
+                                                        <th>Student</th> 
+                                                            @foreach($class_courses as $course)
+                                                        <th>{{ $course->title }}</th>  
+                                                            @endforeach
                                                     </tr> 
                                                 </thead>
                                                 <tbody>
                                                     <div class="card-body">
-                                                        <form action="{{ url('auth/examinations/classes/marks/'.$course->class_id)}}" method="POST">
+                                                        <form action="{{ url('/auth/examinations/classes/marks/'.'7')}}" method="POST">
                                                             @csrf
                                                             @method('PUT')
                                                                     @foreach($students as $index=>$student)
                                                                         <tr>
                                                                             <td>{{ $index+1 }}</td>
                                                                             <td>{{ $student->name }}</td>
-                                                                                @foreach($class_courses as $course)
-                                                                                <td>
-                                                                                    <input type="number" name="courses[]" style="width: 100px; height: 40px; border:1px solid" multiple />
-                                                                                </td>
-                                                                                    
-                                                                                @endforeach
+                                                                            @foreach($class_courses as $course)
+                                                                            <td>
+                                                                                <input type="number" name="marks[]" style="width: 100px; height: 40px; border:1px solid" multiple />
+                                                                            </td>
+                                                                            @endforeach   
                                                                         </tr>
                                                                     @endforeach
-        
-                                                                <button type="submit" class="btn btn-primary">Save</button>
                                                         </form>
                                                     </div>
                                                 </tbody>

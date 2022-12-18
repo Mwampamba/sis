@@ -61,7 +61,7 @@
                 @if(Session::has('delete'))
                     <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
                 @endif
-                <form action="{{ url('/auth/profile/'.$staff->id)}}" method="POST">
+                <form action="{{ url('http://127.0.0.1:8000/auth/profile/'.$staff->id)}}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="form-group row">

@@ -36,7 +36,7 @@
                         <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>Add class courses 
+                                        <h4>
                                             <a href="{{ route('classCourses')}}" class="btn btn-danger float-right">BACK</a> 
                                         </h4>
                                     </div>
@@ -45,22 +45,22 @@
                                             @csrf
                                             <div class="row">
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="">Select class</label>
-                                                    <select name="classes[]" class="form-control classes" multiple="multiple">
-                                                        
+                                                    <label for="">Class</label>
+                                                    <select name="class" class="form-control classes">
+                                                        <option value="">Please, select class</option>
                                                         @foreach($classes as $class)
                                                             <option value="{{ $class->id }}">{{ $class->name }} -- {{ $class->programme->name }}</option>
                                                         @endforeach
                                                     </select>
-                                                    @error('classes')
+                                                    @error('class')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
                                                 <div class="col-md-12 mb-3">
-                                                    <label for="">Select courses</label>
+                                                    <label for="">Courses</label>
                                                     <select name="courses[]" class="form-control courses" multiple="multiple">
                                                         @foreach($courses as $course)
-                                                            <option value="{{ $course->id }}">{{ $course->name }}</option>
+                                                            <option value="{{ $course->id }}">{{ $course->title }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('courses')
@@ -82,40 +82,4 @@
         </section>
     </div>
     <!-- /.content-wrapper -->
-
-    <script>
-        $(document).ready( function(){
-          $('.courses').select2(
-            placeholder:'select',
-            allowClear:true,
-          );
-      
-          $('#courses').select2(
-            ajax:{
-              url:"{{route('saveClassCourses')}}",
-              type="post",
-              delay:250,
-              dataType:'json',
-              data: function(params){
-                return {
-                  name:params.term,
-                  "_token":"{{ csrf_token() }}",
-                };
-              },
-      
-              processResults:function(data){
-                return{
-                  results: $.map(data, function(item){
-                    return{
-                      id: item.id,
-                      text: item.title
-                    }
-                  })
-                };
-              },
-            },
-          );
-        });
-      </script>
-      
     @include('admin.includes.footer')

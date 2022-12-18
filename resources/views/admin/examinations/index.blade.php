@@ -35,18 +35,14 @@
                     <div class="row">
                         <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header">
-                                        <a href="#" class="btn btn-primary float-left">Bulk import examinations</a> 
-                                            <a href="{{ route('addExamination') }}" class="btn btn-success float-right">Add examination</a> 
-                                    </div>
+                                    @can('isAdmin')
+                                        <div class="card-header">
+                                            <a href="#" class="btn btn-primary float-left">Bulk import examinations</a> 
+                                                <a href="{{ route('addExamination') }}" class="btn btn-success float-right">Add examination</a> 
+                                        </div>
+                                    @endcan
                                         <div class="card-body">
                                             <div class="card">
-                                                @if(Session::has('success'))
-                                                    <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-                                                 @endif
-                                                 @if(Session::has('delete'))
-                                                    <div class="alert alert-danger" role="alert">{{ Session::get('delete') }}</div>
-                                                @endif
                                             <table id="myDataTable" class="table table-bordered">
                                                 <thead>
                                                     <tr> 
@@ -55,7 +51,7 @@
                                                         <th>Exam type</th>
                                                         <th>Semester</th>
                                                         <th>Academic year</th> 
-                                                        <th>Marking status</th>                                     
+                                                        {{-- <th>Marking status</th>                                      --}}
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -67,8 +63,8 @@
                                                             <td>{{ $exam->exam_type->exam_type }}</td>
                                                             <td>{{ $exam->semester->name }}</td>
                                                             <td>{{ $exam->academic_year->name}}</td>
-                                                            <td>{{ $exam->status == 1 ? 'Marked' : 'Not marked' }}</td>
-                                                            <td><a href="/auth/examinations/{{$exam->id}}" class="btn btn-secondary">View | Add marks</a></td>
+                                                            {{-- <td>{{ $exam->status == 1 ? 'Not marked' : 'Marked' }}</td> --}} 
+                                                            <td><a href="/auth/examinations/classes-exam/{{$exam->id}}" class="btn btn-secondary">View | Add marks</a></td>
                                                             
                                                         </tr>
                                                     @endforeach

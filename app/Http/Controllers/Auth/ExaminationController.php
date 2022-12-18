@@ -12,7 +12,9 @@ use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use App\Models\ClassExamination;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\ExaminationRequestForm;
+use App\Models\LecturerCourse;
 
 class ExaminationController extends Controller
 {
@@ -54,54 +56,17 @@ class ExaminationController extends Controller
             'starting_date' => $validatedData['starting_date'],
             'ending_date' => $validatedData['ending_date'],
             'status' => $validatedData['status'],
-            'description' => $validatedData['description'],
+            'description' => $validatedData['description']
         ]);
 
-        return redirect()->route('examinations')->with('success', 'Examination has been added successfully!');
-    }
+        $classes = $validatedData['classes'];
 
-    public function classes_list($exam_id)
-    {
-        $title = [
-            'title' => 'SIS | Classes list'
-        ];
+        $exam = Examination::find($exam->id);
 
-        $class_exams = ClassExamination::join('examinations', 'class_examination.examination_id', 'examinations.id')
-            ->join('classes', 'class_examination.class_id', 'classes.id')->get();
+        if ($classes) {
+            $exam->classes()->attach($classes);
 
-        return view('admin.examination-marks.index', $title, compact('class_exams'));
-    }
-
-    public function class_students_marks($class_id)
-    {
-        $title = [
-            'title' => 'SIS | Students'
-        ];
-
-        $class_courses = ClassCourse::join('courses', 'class_course.course_id', 'courses.id')
-            ->join('classes', 'class_course.class_id', 'classes.id')->where('class_course.class_id', $class_id)->get();
-
-        $students = Student::where('class_id', $class_id)->orderBy('name', 'ASC')->get();
-        return view('admin.examination-marks.class-marks', $title, compact('students', 'class_courses'));
-    }
-
-    public function save_class_students_marks(Request $request)
-    {
-
-        $scores = $request->courses;
-        // $marks_2 = $request->course_2;
-        // $marks_3 = $request->course_3;
-        // $marks_4 = $request->course_4;
-        // $marks_5 = $request->course_5;
-        // $marks_6 = $request->course_6;
-
-
-        dd($scores);
-
-        // $class_courses = ClassCourse::join('courses', 'class_course.course_id', 'courses.id')
-        // ->join('classes', 'class_course.class_id', 'classes.id')->get();
-
-        // $students = Student::where('class_id', $class_id)->orderBy('name', 'ASC')->get();
-        // return view('admin.examination-marks.class-marks', $title, compact('students', 'class_courses'));
+            return redirect()->route('examinations')->with('success', 'Examination has been added successfully!');
+        }
     }
 }

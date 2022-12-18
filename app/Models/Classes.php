@@ -26,16 +26,12 @@ class Classes extends Model
 
     public function courses()
     {
-        return $this->belongsToMany(Course::class);
+        return $this->belongsToMany(Course::class, 'class_courses', 'class_id', 'course_id');
     }
 
-    public function examinations()
+    public function exams()
     {
-        return $this->belongsToMany(Examination::class);
-    }
-    public function classes()
-    {
-        return $this->hasMany(ClassExamination::class);
+        return $this->belongsToMany(Examination::class, 'class_examinations', 'class_id', 'examination_id');
     }
 
     public function programme()

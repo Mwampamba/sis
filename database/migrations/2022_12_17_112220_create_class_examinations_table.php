@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('class_examination', function (Blueprint $table) {
+        Schema::create('class_examinations', function (Blueprint $table) {
             $table->primary(['class_id', 'examination_id']);
             $table->unsignedBigInteger('class_id');
             $table->unsignedBigInteger('examination_id');

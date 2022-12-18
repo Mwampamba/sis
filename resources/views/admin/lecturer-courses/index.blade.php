@@ -16,12 +16,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
             <div class="col-sm-6">
-                <h3 class="m-0">Courses</h3>
+                <h3 class="m-0">Lecturer courses</h3>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item active">Courses</li>
+                <li class="breadcrumb-item active">Lecturer courses</li>
                 </ol>
             </div><!-- /.col -->
             </div><!-- /.row -->
@@ -43,9 +43,6 @@
                                     @endif
                                         <div class="card-body">
                                             <div class="card">
-                                                @if(Session::has('success'))
-                                                    <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-                                                 @endif
                                             <table id="myDataTable" class="table table-bordered">
                                                 <thead>
                                                     <tr>
@@ -53,20 +50,18 @@
                                                         <th>Course title</th> 
                                                         <th>Lecturer name</th>                              
                                                         @if(auth()->user()->role == '1')
-                                                        <th>Edit</th>
-                                                        <th>Delete</th>
+                                                        <th>Action</th>
                                                         @endif
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($lecturer_courses as $index=>$data)
+                                                    @foreach($lecturer_courses as $index=>$lecturer_course)
                                                         <tr>
                                                             <td>{{ $index+1 }}</td>
-                                                            <td>{{ $data->title }}</td>
-                                                            <td>{{ $data->name }}</td>
+                                                            <td>{{ $lecturer_course->title }}</td>
+                                                            <td>{{ $lecturer_course->name }}</td>
                                                             @if(auth()->user()->role == '1')
-                                                            <td><a href="#" class="btn btn-warning">Edit</a></td>
-                                                            <td><a href="#" onclick="return confirm('Are you sure you want to delete this data?')" class="btn btn-danger">Delete</a></td>
+                                                            <td><a href="/auth/lecturer-courses/remove/{{$lecturer_course->id}}/{{$lecturer_course->user_id}}" onclick="return confirm('Are you sure you want to delete this data?')" class="btn btn-danger">Remove</a></td>
                                                             @endif
                                                         </tr>
                                                     @endforeach

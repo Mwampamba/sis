@@ -47,7 +47,7 @@
                                             <div class="row">
                                                 <div class="col-md-6 mb-3">
                                                     <label for="">Name</label>
-                                                    <input type="text" name="name" class="form-control" value="{{ $course->name }}" placeholder="Course name" />
+                                                    <input type="text" name="name" class="form-control" value="{{ $course->title }}" placeholder="Course name" />
                                                     @error('name')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror

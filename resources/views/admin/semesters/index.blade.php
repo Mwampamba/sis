@@ -41,19 +41,14 @@
                                     </div>
                                         <div class="card-body">
                                             <div class="card">
-                                                @if(Session::has('success'))
-                                                    <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-                                                 @endif
-                                                 @if(Session::has('delete'))
-                                                    <div class="alert alert-danger" role="alert">{{ Session::get('delete') }}</div>
-                                                 @endif
                                             <table id="myDataTable" class="table table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Name</th>   
                                                         <th>Academic year</th>  
-                                                        <th>Status</th>                                      
+                                                        <th>Status</th>  
+                                                        <th>Created at</th>                                      
                                                         <th>Edit</th>
                                                         <th>Delete</th>
                                                     </tr>
@@ -65,6 +60,7 @@
                                                             <td>{{ $semester->name }}</td>
                                                             <td>{{ $semester->academic_year->name }}</td>
                                                             <td>{{ $semester->status == 1 ? 'Active' : 'Not active' }}</td>
+                                                            <td>{{ $semester->created_at->diffForHumans() }}</td>
                                                             <td><a href="/auth/semesters/{{$semester->id}}" class="btn btn-warning">Edit</a></td>
                                                             <td><a href="/auth/semesters/delete/{{$semester->id}}" onclick="return confirm('Are you sure you want to delete this semester?')" class="btn btn-danger">Delete</a></td>
                                                         </tr>

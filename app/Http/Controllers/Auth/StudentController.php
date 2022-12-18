@@ -3,14 +3,27 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\Classes;
+use App\Models\Collage;
 use App\Models\Student;
 use App\Models\Programme;
-use App\Http\Requests\Auth\StudentRequestForm;
-use App\Models\Collage;
+use Illuminate\Http\Request;
+use App\Imports\StudentImport;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\Auth\StudentRequestForm;
 
 class StudentController extends Controller
 {
+
+    public function student_dashboard()
+    {
+        $title = [
+            'title' => 'SIS | Dashboard'
+        ];
+
+        return view('admin.student-dashboard', $title);
+    }
+    
     public function index()
     {
         $title = [
@@ -91,5 +104,20 @@ class StudentController extends Controller
 
         $user->delete();
         return redirect()->route('students')->with('delete', 'Student has been deleted successfully!');
+    }
+
+    public function bulk_add_students(){
+        $title = [
+            'title' => 'SIS | Add student'
+        ];
+
+        return view('admin.students.bulk-add-students', $title);
+    }
+
+    public function bulk_save_students(Request $request){
+
+        Excel::import(new StudentImport, $request->file);
+
+        return redirect()->route('students')->with('success', 'Student(s) has been added successfully!');
     }
 }

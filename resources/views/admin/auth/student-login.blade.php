@@ -21,12 +21,15 @@
   </div>
   <!-- /.login-logo -->
   <div class="card">
-    <div class="card-body login-card-body">
-        @if(Session::has('error'))
-        <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
+    @if(Session::has('success'))
+      <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
     @endif
-      <p class="login-box-msg">Sign in to access your accounts</p>
-      <form action="{{ route('postLogin')}}" method="post">
+    @if(Session::has('error'))
+      <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
+    @endif
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in with email to access your accounts</p>
+      <form action="{{ route('studentLogin')}}" method="post">
         @csrf
         <div class="input-group mb-2">
           <input type="email" name="email" class="form-control" placeholder="Enter your email">

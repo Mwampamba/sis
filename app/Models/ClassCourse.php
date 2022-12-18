@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Programme;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class ClassCourse extends Model
 {
     use HasFactory;
 
-    protected $table = 'class_course';
+    protected $table = 'class_courses';
     
     protected $fillable = [
         'class_id',

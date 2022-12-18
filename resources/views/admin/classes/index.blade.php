@@ -43,21 +43,12 @@
                                     @endif
                                         <div class="card-body">
                                             <div class="card">
-                                                @if(Session::has('success'))
-                                                    <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-                                                 @endif
-                                                 @if(Session::has('delete'))
-                                                    <div class="alert alert-danger" role="alert">{{ Session::get('delete') }}</div>
-                                                @endif
-                                                 @if(Session::has('delete'))
-                                                    <div class="alert alert-danger" role="alert">{{ Session::get('delete') }}</div>
-                                                @endif
                                             <table id="myDataTable" class="table table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Class</th> 
-                                                        <th>Programme</th>  
+                                                        <th>Programme of study</th>  
                                                         <th>Academic year</th>                                 
                                                         @if(auth()->user()->role == '1')
                                                         <th>View</th>

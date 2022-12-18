@@ -36,7 +36,7 @@
                         <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>Add lecturer courses 
+                                        <h4>
                                             <a href="{{ route('lecturerCourses')}}" class="btn btn-danger float-right">BACK</a> 
                                         </h4>
                                     </div>
@@ -60,7 +60,7 @@
                                                     <label for="">Select courses</label>
                                                     <select name="courses[]" class="form-control courses" multiple="multiple">
                                                         @foreach($courses as $course)
-                                                            <option value="{{ $course->id }}">{{ $course->name }}</option>
+                                                            <option value="{{ $course->id }}">{{ $course->title }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('courses')

@@ -7,8 +7,12 @@ use App\Models\Course;
 use App\Models\Classes;
 use App\Models\Student;
 use App\Models\Department;
+use Illuminate\Http\Request;
+use App\Imports\LecturerImport;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Auth\UserRequestForm;
 
 class UserController extends Controller
@@ -39,40 +43,6 @@ class UserController extends Controller
         return view('admin.profile', $title, compact('staff'));
     }
 
-    public function profile_update(UserRequestForm $request, $staff_id)
-    {
-        $validatedData = $request->validated();
-
-        $user = User::findOrFail($staff_id);
-
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
-        $user->phone = $validatedData['phone'];
-
-
-        $old_password = $validatedData['old_password'];
-
-        $results = User::where('password', $old_password)->get();
-        
-
-        if ($results) {
-            $new_password = $validatedData['new_password'];
-            $confirm_password = $validatedData['confirm_password'];
-
-            if ($new_password === $confirm_password) {
-                $user->password = $new_password;
-
-                $user->update();
-                return redirect()->route('profile')->with('success', 'Profile has been updated successfully!');
-            }
-
-            else {
-                return back()->with('error', 'New password MUST match!');
-            }
-        } else {
-            return back()->with('error', 'Wrong old password!');
-        }
-    }
 
     public function index()
     {
@@ -148,5 +118,52 @@ class UserController extends Controller
 
         $user->delete();
         return redirect()->route('staffs')->with('delete', 'Lecturer has been deleted successfully!');
+    }
+
+    public function bulk_add_staffs()
+    {
+        $title = [
+            'title' => 'SIS | Add staff'
+        ];
+
+        return view('admin.staffs.bulk-add-staffs', $title);
+    }
+
+    public function bulk_save_staffs(Request $request)
+    {
+
+        Excel::import(new LecturerImport, $request->file);
+
+        return redirect()->route('staffs')->with('success', 'Staff(s) has been added successfully!');
+    }
+
+
+    public function profile_update(UserRequestForm $request, $staff_id)
+    {
+        $validatedData = $request->validated();
+        dd($validatedData);
+        $old_password = $validatedData['old_password'];
+
+        $user = User::findOrFail($staff_id);
+
+        $results = $user->where('password', $old_password)->get();
+        
+
+        if ($results) {
+            $new_password = $validatedData['new_password'];
+            $confirm_password = $validatedData['confirm_password'];
+
+            if ($new_password === $confirm_password) {
+
+                User::where('email', $request->email)->update([
+                    'password' => Hash::make($new_password)
+                ]);
+                return redirect()->route('profile')->with('success', 'Profile has been updated successfully!');
+            } else {
+                return back()->with('error', 'New password MUST match!');
+            }
+        } else {
+            return back()->with('error', 'Wrong old password!');
+        }
     }
 }

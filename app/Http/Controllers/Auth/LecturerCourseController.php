@@ -13,7 +13,7 @@ class LecturerCourseController extends Controller
     public function index()
     {
         $title = [
-            'title' => 'SIS | Lecturer courses' 
+            'title' => 'SIS | Lecturer courses'
         ];
 
         if (auth()->user()->role == '1') {
@@ -21,8 +21,7 @@ class LecturerCourseController extends Controller
                 ->join('courses', 'course_user.course_id', 'courses.id')->get();
 
             return view('admin.lecturer-courses.index', $title, compact('lecturer_courses'));
-        }
-        else if (auth()->user()->role == '0') {
+        } else if (auth()->user()->role == '0') {
             $lecturer_courses = LecturerCourse::join('users', 'course_user.user_id', 'users.id')
                 ->join('courses', 'course_user.course_id', 'courses.id')->where('user_id', auth()->user()->id)->get();
 
@@ -45,13 +44,23 @@ class LecturerCourseController extends Controller
     {
         $validatedData = $request->validated();
 
-        $lecturer = $validatedData['lecturer'];
+        $lecturer_id = $validatedData['lecturer'];
         $courses = $validatedData['courses'];
 
-        dd($courses);
+        $lecturer = User::findOrFail($lecturer_id);
+        if ($lecturer_id) {
+            $lecturer->courses()->attach($courses);
 
-        $lecturer->courses()->attach($courses);
+            return redirect()->route('lecturerCourses')->with('success', 'Courses has been assign to lecturer successfully!');
+        }
+    }
 
-        return redirect()->route('lecturerCourses')->with('success', 'Class courses has been added successfully!');
+    public function destroy($course_id, $lecturer)
+    {
+        
+        $course = Course::findOrFail($course_id);
+        $course->lecturers()->detach($lecturer);
+       
+        return redirect()->route('lecturerCourses')->with('delete', 'Course has been removed from lecturer successfully!');
     }
 }

@@ -36,23 +36,15 @@
                         <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <a href="#" class="btn btn-primary float-left">Bulk import examinations</a> 
-                                            <a href="#" class="btn btn-success float-right">Add examination</a> 
+                                            <a href="{{ route('examinations')}}" class="btn btn-danger float-right">BACK</a> 
                                     </div>
                                         <div class="card-body">
                                             <div class="card">
-                                                @if(Session::has('success'))
-                                                    <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-                                                 @endif
-                                                 @if(Session::has('delete'))
-                                                    <div class="alert alert-danger" role="alert">{{ Session::get('delete') }}</div>
-                                                @endif
                                             <table id="myDataTable" class="table table-bordered">
                                                 <thead>
                                                     <tr> 
                                                         <th>#</th>
                                                         <th>Class name</th>
-                                                        <th>Programme of study</th>
                                                         <th>Examination name</th>
                                                         <th>Marking status</th>                                     
                                                         <th>Action</th>
@@ -62,11 +54,10 @@
                                                     @foreach($class_exams as $index=>$class_exam)
                                                         <tr>
                                                             <td>{{ $index+1 }}</td>
-                                                            <td>{{ $class_exam->name }}</td>
-                                                            <td>{{ $class_exam->programme_id == 1 ? 'BCEIT' : 'BBA' }}</td>
+                                                            <td>{{ $class_exam->name }} -- {{ $class_exam->programme_id == 1 ? 'BCEIT' : 'BBA' }}</td>
                                                             <td>{{ $class_exam->exam_name }}</td>
-                                                            <td>{{ $class_exam->status == 1 ? 'Marked' : 'Not marked' }}</td>
-                                                            <td><a href="/auth/examinations/classes/marks/{{$class_exam->id}}" class="btn btn-secondary">View | Add marks</a></td>
+                                                            <td>{{ $class_exam->status == 0 ? 'Marked' : 'Not marked' }}</td>
+                                                            <td><a href="/auth/examinations/classes/marks-exam/{{$class_exam->id}}" class="btn btn-secondary">View | Add marks</a></td>
                                                             
                                                         </tr>
                                                     @endforeach

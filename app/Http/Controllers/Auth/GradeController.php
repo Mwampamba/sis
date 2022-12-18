@@ -64,7 +64,7 @@ class GradeController extends Controller
         $grade->remarks = $validatedData['remarks'];
 
         $grade->update();
-        return redirect()->route('grades')->with('success', 'Grades has been updated successfully!');
+        return redirect()->route('grades')->with('success', 'Grade has been updated successfully!');
     }
 
     public function destroy($grade_id)

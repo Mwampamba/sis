@@ -37,18 +37,12 @@
                                 <div class="card">
                                     @if(auth()->user()->role == '1')
                                     <div class="card-header">
-                                            <a href="#" class="btn btn-primary float-left">Bulk import students</a> 
+                                            <a href="{{route('bulkAddstudents')}}" class="btn btn-primary float-left">Bulk import students</a> 
                                             <a href="{{ route('addStudent')}}" class="btn btn-success float-right">Add student</a> 
                                     </div>
                                     @endif
                                         <div class="card-body">
                                             <div class="card">
-                                                @if(Session::has('success'))
-                                                    <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-                                                @endif
-                                                @if(Session::has('delete'))
-                                                    <div class="alert alert-danger" role="alert">{{ Session::get('delete') }}</div>
-                                                @endif
                                             <table id="myDataTable" class="table table-bordered">
                                                 <thead>
                                                     <tr>
