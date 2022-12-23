@@ -92,7 +92,7 @@
                                                         <option value="">Select role</option>
                                                         <option value="1">Admin</option>
                                                         <option value="0">Lecturer</option>
-                                                    </select>
+                                                    </select> 
                                                     @error('role')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror

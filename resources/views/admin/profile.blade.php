@@ -61,7 +61,7 @@
                 @if(Session::has('delete'))
                     <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
                 @endif
-                <form action="{{ url('http://127.0.0.1:8000/auth/profile/'.$staff->id)}}" method="POST">
+                <form action="{{ url('/auth/profile/'.Auth::user()->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="form-group row">
@@ -105,7 +105,7 @@
 
                     <div class="form-group row">
                         <label for="">Confirm password</label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-9">
                           <input type="password" name="confirm_password" class="form-control" placeholder="Confirm password"/>
                             @error('confirm_password')
                                 <div class="text-danger">{{ $message }}</div>

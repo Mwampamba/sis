@@ -18,13 +18,14 @@ class ExaminationMark extends Model
 
     protected $fillable = [
         'score',
-        'grade',
         'student_id',
         'course_id',
+        'grade_id',
         'class_id',
+        'programme_id',
+        'semester_id',
         'examination_id',
-        'academic_year_id',
-        'status'
+        'academic_year_id'
     ];
 
     public function student()

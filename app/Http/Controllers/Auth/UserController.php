@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Requests\Auth\UserRequestForm;
+use App\Http\Requests\Auth\LecturerRequestForm;
 
 class UserController extends Controller
 {
@@ -30,19 +30,6 @@ class UserController extends Controller
 
         return view('admin.dashboard', $title, compact('students', 'lecturers', 'classes', 'courses'));
     }
-
-
-    public function profile($staff_id)
-    {
-        $title = [
-            'title' => 'SIS | Profile'
-        ];
-
-        $staff = User::findOrFail(Auth::user()->id);
-
-        return view('admin.profile', $title, compact('staff'));
-    }
-
 
     public function index()
     {
@@ -65,7 +52,7 @@ class UserController extends Controller
         return view('admin.staffs.add-staff', $title, compact('departments'));
     }
 
-    public function save(UserRequestForm $request)
+    public function save(LecturerRequestForm $request)
     {
         $default_password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
         $validatedData = $request->validated();
@@ -95,7 +82,7 @@ class UserController extends Controller
         }
     }
 
-    public function update(UserRequestForm $request, $staff_id)
+    public function update(LecturerRequestForm $request, $staff_id)
     {
         $validatedData = $request->validated();
 
@@ -120,6 +107,7 @@ class UserController extends Controller
         return redirect()->route('staffs')->with('delete', 'Lecturer has been deleted successfully!');
     }
 
+
     public function bulk_add_staffs()
     {
         $title = [
@@ -138,32 +126,47 @@ class UserController extends Controller
     }
 
 
-    public function profile_update(UserRequestForm $request, $staff_id)
+    public function profile($staff_id)
     {
-        $validatedData = $request->validated();
-        dd($validatedData);
-        $old_password = $validatedData['old_password'];
+        $title = [
+            'title' => 'SIS | Profile'
+        ];
 
-        $user = User::findOrFail($staff_id);
+        $staff = User::find(Auth::user()->id);
 
-        $results = $user->where('password', $old_password)->get();
-        
-
-        if ($results) {
-            $new_password = $validatedData['new_password'];
-            $confirm_password = $validatedData['confirm_password'];
-
-            if ($new_password === $confirm_password) {
-
-                User::where('email', $request->email)->update([
-                    'password' => Hash::make($new_password)
-                ]);
-                return redirect()->route('profile')->with('success', 'Profile has been updated successfully!');
-            } else {
-                return back()->with('error', 'New password MUST match!');
-            }
-        } else {
-            return back()->with('error', 'Wrong old password!');
-        }
+        return view('admin.profile', $title, compact('staff'));
     }
+
+
+    public function profile_update(LecturerRequestForm $request)
+    {
+ 
+        dd($request);
+
+        // $validatedData = $request->validated();
+        // $old_password = $validatedData['old_password'];
+
+        // $user = User::findOrFail($staff_id);
+
+        // $results = $user->where('password', $old_password)->get();
+
+
+        // if ($results) {
+        //     $new_password = $validatedData['new_password'];
+        //     $confirm_password = $validatedData['confirm_password'];
+
+        //     if ($new_password === $confirm_password) {
+
+        //         User::where('email', $request->email)->update([
+        //             'password' => Hash::make($new_password)
+        //         ]);
+        //         return redirect()->route('profile')->with('success', 'Profile has been updated successfully!');
+        //     } else {
+        //         return back()->with('error', 'New password MUST match!');
+        //     }
+        // } else {
+        //     return back()->with('error', 'Wrong old password!');
+        // }
+    }
+
 }

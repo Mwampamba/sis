@@ -30,7 +30,7 @@ class StudentController extends Controller
             'title' => 'SIS | students'
         ];
 
-        $students = Student::all();
+        $students = Student::orderBy('id', 'DESC')->get();
         return view('admin.students.index', $title, compact('students'));
     }
 

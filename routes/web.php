@@ -17,33 +17,10 @@ use App\Http\Controllers\Auth\{
     LecturerCourseController,
     ExamTypeController,
     ExaminationController,
-    MarkController
+    ExaminationMarkController
 };
 
-#AUTHENTICATION
-Route::controller(AdminController::class)->group(function () {
-    #STAFFS
-    Route::get('/', 'get_login')->name('getLogin');
-    Route::post('/', 'post_login')->name('postLogin');
-    Route::get('/forgot-password', 'get_forgot_password')->name('getForgotPassword');
-    Route::post('/forgot-password', 'post_forgot_password')->name('postForgotPassword');
-    Route::get('/reset-password/{token}', 'reset_password')->name('resetPassword');
-    Route::put('/update-password', 'update_password')->name('updatePassword');
-
-    #STUDENTS
-    Route::get('/student', 'student_get_login')->name('studentGetLogin');
-    Route::post('/student', 'student_post_login')->name('studentLogin');
-
-    #STUDENT DASHBOARD
-    Route::get('/student/dashboard', [StudentController::class, 'student_dashboard'])->name('studentDashboard');
-});
-
 Route::group(['middleware' => ['admin_auth']], function () {
-    #DASHBOARD
-    Route::get('/auth/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
-    #PROFILE
-    Route::get('/auth/profile/{staff_id}', [UserController::class, 'profile']);
-    Route::put('/auth/profile/{staff_id}', [UserController::class, 'profile_update']);
     #LECTURERS
     Route::controller(UserController::class)->group(function () {
         Route::get('auth/staffs', 'index')->name('staffs')->middleware('can:isAdmin');
@@ -142,7 +119,7 @@ Route::group(['middleware' => ['admin_auth']], function () {
         Route::post('auth/bulk-add-class-courses', 'bulk_save_class_courses')->name('bulkSaveClassCourses')->middleware('can:isAdmin');
         Route::get('auth/class-courses/remove/{course}/{class}', 'destroy');
     });
-    #LECTURER_COURSES
+    #LECTURER-COURSES
     Route::controller(LecturerCourseController::class)->group(function () {
         Route::get('auth/lecturer-courses', 'index')->name('lecturerCourses');
         Route::get('auth/add-lecturer-courses', 'create')->name('addLecturerCourses')->middleware('can:isAdmin');
@@ -175,11 +152,39 @@ Route::group(['middleware' => ['admin_auth']], function () {
         Route::get('auth/examinations/class-exam/{exam_id}', 'exam_classes_list');
     });
     #EXAMINATION-MARKS
-    Route::controller(MarkController::class)->group(function () {
+    Route::controller(ExaminationMarkController::class)->group(function () {
         Route::get('auth/examinations/classes-exam/{exam_id}', 'exam_classes_list');
-        Route::get('auth/examinations/classes/marks-exam/{class_id}', 'class_students_marks');
-        Route::put('auth/examinations/classes/marks/{class_id}', 'save_class_students_marks');
+        Route::get('auth/examinations/classes/marks', 'bulk_add_students_scores')->name('bulkStudentsScores');
+        Route::post('auth/examinations/classes/marks', 'bulk_save_students_scores')->name('bulkSaveStudentsScores'); 
+        Route::get('auth/examinations/classes/marks-exam/{class_id}', 'class_students_scores');
+        Route::get('auth/examinations/classes/student-scores/{student_id}', 'individual_student_scores');
+
     });
+    #DASHBOARD
+    Route::get('/auth/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    #PROFILE
+    Route::get('/auth/profile/{staff_id}', [UserController::class, 'profile']);
+    Route::put('/auth/profile/{staff_id}', [UserController::class, 'profile_update']);
     #LOGOUT
     Route::get('auth/logout', [AdminController::class, 'logout'])->name('logout');
+
+});
+
+
+#AUTHENTICATION
+Route::controller(AdminController::class)->group(function () {
+    #STAFFS
+    Route::get('/', 'get_login')->name('getLogin');
+    Route::post('/', 'post_login')->name('postLogin');
+    Route::get('/forgot-password', 'get_forgot_password')->name('getForgotPassword');
+    Route::post('/forgot-password', 'post_forgot_password')->name('postForgotPassword');
+    Route::get('/reset-password/{token}', 'reset_password')->name('resetPassword');
+    Route::put('/update-password', 'update_password')->name('updatePassword');
+
+    #STUDENTS
+    Route::get('/student', 'student_get_login')->name('studentGetLogin');
+    Route::post('/student', 'student_post_login')->name('studentLogin');
+
+    #STUDENT DASHBOARD
+    Route::get('/student/dashboard', [StudentController::class, 'student_dashboard'])->name('studentDashboard');
 });

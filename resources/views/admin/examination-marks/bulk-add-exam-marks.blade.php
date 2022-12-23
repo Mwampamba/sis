@@ -16,12 +16,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
             <div class="col-sm-6">
-                <h3 class="m-0">Courses</h3>
+                <h3 class="m-0">Examination scores</h3>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item active">Courses</li>
+                <li class="breadcrumb-item active">Examination scores</li>
                 </ol>
             </div><!-- /.col -->
             </div><!-- /.row -->
@@ -36,24 +36,24 @@
                         <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>Bulk import courses
-                                            <a href="{{ route('courses')}}" class="btn btn-danger float-right">BACK</a> 
+                                        <h4>
+                                            <a href="{{ route('examinations')}}" class="btn btn-danger float-right">BACK</a> 
                                         </h4>
                                     </div>
                                     <div class="card-body">
-                                        <form action="{{ route('bulkSaveCourses')}}" method="POST" enctype="multipart/form-data">
+                                        <form action="{{ route('bulkSaveStudentsScores') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             <div class="row">
                                                 <div class="form-row">
                                                     <div class="col-md-9 mb-3">
-                                                        <a href="{{ asset('files/courses.csv')}}" class="btn btn-success float-right"><i class="fa fa-download"></i> DOWNLOAD EXCEL SAMPLE</a>
+                                                        <a href="{{ asset('files/students-scores.csv')}}" class="btn btn-success float-right"><i class="fa fa-download"></i> DOWNLOAD EXCEL SAMPLE</a>
                                                     </div> 
                                                     <div class="col-md-6 mb-3">
                                                         <input type="file" class="form-control " name="file" required />
                                                     </div>
                                                     <div class="col-md-6 mb-3">
                                                         <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i>
-                                                             <span>Upload/ Bulk import courses(s)</span>
+                                                             <span>Upload/ Bulk import student(s) scores</span>
                                                         </button>
                                                     </div>
                                                 </div>

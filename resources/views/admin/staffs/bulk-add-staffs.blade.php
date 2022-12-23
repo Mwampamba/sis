@@ -46,7 +46,7 @@
                                             <div class="row">
                                                 <div class="form-row">
                                                     <div class="col-md-9 mb-3">
-                                                        <a href="{{ asset('files/staffs.xlsx')}}" class="btn btn-success float-right"><i class="fa fa-download"></i> DOWNLOAD EXCEL SAMPLE</a>
+                                                        <a href="{{ asset('files/staffs.csv')}}" class="btn btn-success float-right"><i class="fa fa-download"></i> DOWNLOAD EXCEL SAMPLE</a>
                                                     </div> 
                                                     <div class="col-md-6 mb-3">
                                                         <input type="file" class="form-control " name="file" required />

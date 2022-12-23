@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Imports\CourseImport;
+use App\Imports\CoursesImport;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Auth\CourseRequestForm;
@@ -16,7 +17,7 @@ class CourseController extends Controller
         $title = [
             'title' => 'SIS | Courses'
         ];
-        $courses = Course::all();
+        $courses = Course::orderBy('id', 'DESC')->get();
 
         return view('admin.courses.index', $title, compact('courses'));
     }

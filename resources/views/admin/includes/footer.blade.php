@@ -51,6 +51,37 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+  {{-- <script>
+    const form = document.querySelector("form");
+    fileInput = form.querySelector(.file);
+    progressArea = document.querySelector(".progress-area");
+    uploadeArea = document.querySelector(".uploaded-area");
+
+    form.addEventListener("click", ()=>){
+      fileInput.click();
+    };
+
+    fileInput.onchange = ({target}) =>{
+      let file = target.files[0];
+      if(file){
+        let fileName = file.name;
+        uploadFile(fileName);
+      }
+    }
+
+    function uploadFile(fileName){
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", "/auth/students/bulk-add-students");
+      xhr.upload.addEventListener("progress", e =>{
+        console.log(e);
+      });
+
+      let formData = new FormData(form);
+      xhr.send(formData);
+
+    }
+  </script> --}}
+
   <script>
     $(document).ready( function(){
       $('#myDataTable').DataTable();
@@ -62,16 +93,19 @@
       $('.programme').select2(); 
     });
   </script>
+
   @if(Session::has('success'))
     <script>
       toastr.success("{!! Session::get('success') !!}");
     </script>
   @endif
+
   @if(Session::has('delete'))
     <script>
       toastr.success("{!! Session::get('delete') !!}");
     </script>
   @endif
+
 </body>
 </html>
 

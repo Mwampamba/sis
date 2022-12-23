@@ -71,7 +71,7 @@
               <li class="nav-header">COURSES</li>
                 <li class="nav-item {{ $current_route == 'courses'?'menu-open':''}}">
                       <a href="" class="nav-link {{ $current_route == 'courses'?'active':''}}">
-                  <i class="nav-icon fas fa-file"></i>
+                  <i class="nav-icon  fa fa-copy"></i>
                     <p>
                         Courses
                       <i class="right fas fa-angle-left"></i>
@@ -81,7 +81,7 @@
             @can('isAdmin')
               <li class="nav-item">
                 <a href="{{ route('courses')}}" class="nav-link {{ $current_route == 'courses'?'active':''}}">
-                  <i class="nav-icon fas fa-building"></i>
+                  <i class="nav-icon fas fa fa-copy"></i>
                   <p>Manage courses</p>
                 </a>
               </li>
@@ -114,13 +114,13 @@
                   <ul class="nav nav-treeview">
                       <li class="nav-item">
                         <a href="{{ route('examTypes')}}" class="nav-link {{ $current_route == 'examTypes'?'active':''}}">
-                          <i class="nav-icon fas fa-server"></i>
+                          <i class="nav-icon fas fa-copy"></i>
                           <p>Examination types</p>
                         </a>
                       </li>
                     <li class="nav-item">
                       <a href="{{ route('examinations')}}" class="nav-link {{ $current_route == 'examinations'?'active':''}}">
-                        <i class="nav-icon fas fa-server"></i>
+                        <i class="nav-icon fas fa-file"></i>
                         <p>Manage examinations</p>
                       </a>
                     </li>

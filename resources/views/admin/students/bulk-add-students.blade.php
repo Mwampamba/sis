@@ -46,10 +46,10 @@
                                             <div class="row">
                                                 <div class="form-row">
                                                     <div class="col-md-9 mb-3">
-                                                        <a href="{{ asset('files/students.xlsx')}}" class="btn btn-success float-right"><i class="fa fa-download"></i> DOWNLOAD EXCEL SAMPLE</a>
+                                                        <a href="{{ asset('files/students.csv')}}" class="btn btn-success float-right"><i class="fa fa-download"></i> DOWNLOAD EXCEL SAMPLE</a>
                                                     </div> 
                                                     <div class="col-md-6 mb-3">
-                                                        <input type="file" class="form-control " name="file" required />
+                                                        <input type="file" class="file form-control " name="file" required />
                                                     </div>
                                                     <div class="col-md-6 mb-3">
                                                         <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i>
@@ -59,6 +59,32 @@
                                                 </div>
                                             </div>
                                         </form>
+                                        {{-- <section class="progress-area">
+                                            <li class="row">
+                                                <i class="fas fa-file-alt"> </i>
+                                                <div class="content">
+                                                    <div class="details">
+                                                        <span class="name"> Progression bar . Uploading</span>
+                                                        <span class="percent">50%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="progress-bar">
+                                                    <div class="progress"></div>
+                                                </div>
+                                            </li>
+                                        </section>
+                                        <section class="uploaded-area">
+                                            <li class="row">
+                                                <div class="content">
+                                                <i class="fas fa-file-alt"> </i>
+                                                    <div class="details">
+                                                        <span class="name"> File name. Uploaded</span>
+                                                        <span class="size">100 KB</span>
+                                                    </div>
+                                                </div>
+                                                <i class="fas fa-check"></i>
+                                            </li>
+                                        </section> --}}
                                     </div>  
                                 </div>
                         </div>
