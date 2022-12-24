@@ -66,7 +66,7 @@ class ExaminationMarkImport implements ToModel, WithHeadingRow
         }
         $student = $this->student_id->where('name', $row['student_name'])->first();
         $course = $this->course_id->where('title', $row['course_title'])->first();
-        $grade = $this->grade_id->where('name', $check_grade)->first();
+        $grade = $this->grade_id->where('grade_name', $check_grade)->first();
         $class = $this->class_id->where('name', $row['class_name'])->first();
         $programme = $this->programme_id->where('name', $row['programme_of_study'])->first();
         $exam = $this->exam_id->where('exam_name', $row['exam_name'])->first();

@@ -69,9 +69,11 @@ class ExaminationMarkController extends Controller
                 'courses.title',
             ])
                 ->join('courses', 'class_courses.course_id', 'courses.id')
-                ->where('class_courses.class_id', $class_id)
+                ->join('class_examinations', 'class_courses.class_id', 'class_examinations.class_id')
+                ->join('examinations', 'class_courses.class_id', 'class_examinations.class_id')
+                ->where('class_examinations.class_id', $class_id)
                 ->get();
-            
+
             $exam_scores = DB::table('examination_marks')->select([
                 'examination_marks.score',
             ])

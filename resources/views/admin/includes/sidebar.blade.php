@@ -131,10 +131,10 @@
                   <a href="#" class="nav-link {{ $current_route == 'examinations'?'active':''}}">
                   <i class="nav-icon fas fa-server"></i>
                   <p>
-              Marks
-              <i class="right fas fa-angle-left"></i>
-            </p>
-            </a>
+                    Examination marks
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                  </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="{{ route('examinations')}}" class="nav-link {{ $current_route == 'examinations'?'active':''}}">
@@ -144,20 +144,20 @@
                 </li>
             </ul>
             @can('isAdmin')
-              <li class="nav-header">REPORTS</li>
-              <li class="nav-item {{ $current_route == 'results'?'menu-open':''}}">
-                  <a href="#" class="nav-link {{ $current_route == 'results'?'active':''}}">
-                  <i class="nav-icon fas fa-server"></i>
+              <li class="nav-header">TRANSCRIPTS</li>
+              <li class="nav-item {{ $current_route == 'transcripts'?'menu-open':''}}">
+                  <a href="#" class="nav-link {{ $current_route == 'transcripts'?'active':''}}">
+                  <i class="nav-icon fas fa-copy"></i>
                   <p>
-                    Reports/ Transcripts
+                    Transcripts
                     <i class="right fas fa-angle-left"></i>
                   </p>
                   </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="" class="nav-link {{ $current_route == 'results'?'active':''}}">
+                  <a href="{{ route('transcripts')}}" class="nav-link {{ $current_route == 'transcripts'?'active':''}}">
                     <i class="nav-icon fas fa-server"></i>
-                    <p>Manage reports</p>
+                    <p>Manage Transcripts</p>
                   </a>
                 </li>
               </ul>

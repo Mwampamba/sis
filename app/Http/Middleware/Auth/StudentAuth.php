@@ -4,8 +4,9 @@ namespace App\Http\Middleware\Auth;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class AdminAuth 
+class StudentAuth
 {
     /**
      * Handle an incoming request.
@@ -16,12 +17,11 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->check()) {
-            if ((!auth()->user()->role == '1') && (!auth()->user()->role == '0')) {
-                return redirect()->route('getLogin')->with('error', 'You do not have permission to access the page');
-            }
-        } else {
-            return redirect()->route('getLogin')->with('error', 'You must log in to access the page');
+        if (!Auth::guard('student')->check()) 
+            if ((!auth()->guard('student')->id())) {
+                return redirect()->route('studentGetLogin')->with('error', 'You do not have permission to access the page');
+            } else {
+            return redirect()->route('studentGetLogin')->with('error', 'You must log in to access the page');
         }
         return $next($request);
     }

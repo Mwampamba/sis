@@ -3,11 +3,11 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
     <!-- Navbar -->
-    @include('admin.includes.navbar')
+    @include('admin.includes.student.navbar')
 
     <!-- Main Sidebar Container -->
 
-    @include('admin.includes.sidebar')
+    @include('admin.includes.student.sidebar')
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -20,7 +20,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('studentDashboard')}}">Home</a></li>
                 <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
             </div><!-- /.col -->
@@ -33,63 +33,48 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>{{ $students }}</h3>
+                        <h3>100</h3>
             
-                    <p>Students</p>
+                    <p>Notes folders</p>
                     </div>
                     <div class="icon">
-                    <i class="fa fa-user-graduate"></i>
+                    <i class="fa fa-folder"></i>
                     </div>
-                    <a href="{{ route('students') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>{{ $lecturers }}</h3>
+                        <h3>15</h3>
             
-                    <p>Lecturers</p>
+                    <p>Announcements</p>
                     </div>
                     <div class="icon">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-bullhorn"></i>
                     </div>
-                    <a href="{{ route('staffs')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>{{ $classes }}</h3>
-            
-                    <p>Classes</p>
-                    </div>
-                    <div class="icon">
-                    <i class="fa fa-building"></i>
-                    </div>
-                    <a href="{{ route('classes')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>{{ $courses }}</h3>
+                        <h3>7</h3>
             
-                    <p>Courses</p>
+                    <p>Assignments</p>
                     </div>
                     <div class="icon">
-                    <i class="fa fa-copy"></i>
+                    <i class="fa fa-file"></i>
                     </div>
-                    <a href="{{ route('courses')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
                 </div>
                 <!-- ./col -->

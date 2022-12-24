@@ -17,7 +17,9 @@ use App\Http\Controllers\Auth\{
     LecturerCourseController,
     ExamTypeController,
     ExaminationController,
-    ExaminationMarkController
+    ExaminationMarkController,
+    StudentAuthController,
+    TranscriptController
 };
 
 Route::group(['middleware' => ['admin_auth']], function () {
@@ -155,10 +157,15 @@ Route::group(['middleware' => ['admin_auth']], function () {
     Route::controller(ExaminationMarkController::class)->group(function () {
         Route::get('auth/examinations/classes-exam/{exam_id}', 'exam_classes_list');
         Route::get('auth/examinations/classes/marks', 'bulk_add_students_scores')->name('bulkStudentsScores');
-        Route::post('auth/examinations/classes/marks', 'bulk_save_students_scores')->name('bulkSaveStudentsScores'); 
+        Route::post('auth/examinations/classes/marks', 'bulk_save_students_scores')->name('bulkSaveStudentsScores');
         Route::get('auth/examinations/classes/marks-exam/{class_id}', 'class_students_scores');
         Route::get('auth/examinations/classes/student-scores/{student_id}', 'individual_student_scores');
-
+    });
+    #TRANSCRIPT
+    Route::controller(TranscriptController::class)->group(function () {
+        Route::get('auth/transcripts/classes', 'index')->name('transcripts');
+        Route::get('auth/transcripts/classes/{class_id}', 'class_transcripts')->middleware('can:isAdmin');
+        Route::get('auth/transcripts/class/{student_id}', 'student_transcript')->middleware('can:isAdmin');
     });
     #DASHBOARD
     Route::get('/auth/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
@@ -166,25 +173,30 @@ Route::group(['middleware' => ['admin_auth']], function () {
     Route::get('/auth/profile/{staff_id}', [UserController::class, 'profile']);
     Route::put('/auth/profile/{staff_id}', [UserController::class, 'profile_update']);
     #LOGOUT
-    Route::get('auth/logout', [AdminController::class, 'logout'])->name('logout');
-
+    Route::get('auth/logout', [AdminController::class, 'logout'])->name('staffLogout');
 });
-
-
-#AUTHENTICATION
+#STAFFS-AUTHENTICATION
 Route::controller(AdminController::class)->group(function () {
-    #STAFFS
     Route::get('/', 'get_login')->name('getLogin');
     Route::post('/', 'post_login')->name('postLogin');
     Route::get('/forgot-password', 'get_forgot_password')->name('getForgotPassword');
     Route::post('/forgot-password', 'post_forgot_password')->name('postForgotPassword');
     Route::get('/reset-password/{token}', 'reset_password')->name('resetPassword');
     Route::put('/update-password', 'update_password')->name('updatePassword');
+});
 
-    #STUDENTS
-    Route::get('/student', 'student_get_login')->name('studentGetLogin');
-    Route::post('/student', 'student_post_login')->name('studentLogin');
-
-    #STUDENT DASHBOARD
-    Route::get('/student/dashboard', [StudentController::class, 'student_dashboard'])->name('studentDashboard');
+Route::group(['middleware' => ['student_auth']], function () {
+    Route::controller(StudentAuthController::class)->group(function () {
+        Route::get('/student/dashboard', 'dashboard')->name('studentDashboard');
+    });
+});
+#STUDENTS-AUTHENTICATION
+Route::controller(StudentAuthController::class)->group(function () {
+    Route::get('/student', 'get_login')->name('studentGetLogin');
+    Route::post('/student', 'post_login')->name('studentPostLogin');
+    Route::get('/student/forgot-password', 'get_forgot_password')->name('studentGetForgotPassword');
+    Route::post('/student/forgot-password', 'post_forgot_password')->name('studentPostForgotPassword');
+    Route::get('/student/reset-password/{token}', 'reset_password')->name('studentResetPassword');
+    Route::put('/student/update-password', 'update_password')->name('studentUpdatePassword');
+    Route::get('/student/logout', 'logout')->name('logout');
 });

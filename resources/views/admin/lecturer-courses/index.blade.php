@@ -46,6 +46,7 @@
                                             <table id="myDataTable" class="table table-bordered">
                                                 <thead>
                                                     <tr>
+                                                        <th><input type="checkbox" name="ids" class="checkAllCourses" value="" /></th>
                                                         <th>#</th>
                                                         <th>Course title</th> 
                                                         <th>Lecturer name</th>                              
@@ -57,6 +58,7 @@
                                                 <tbody>
                                                     @foreach($lecturer_courses as $index=>$lecturer_course)
                                                         <tr>
+                                                            <td><input type="checkbox" name="ids" class="checkAllCourses" value="" /></td>
                                                             <td>{{ $index+1 }}</td>
                                                             <td>{{ $lecturer_course->title }}</td>
                                                             <td>{{ $lecturer_course->name }}</td>

@@ -46,17 +46,19 @@
                                                  <table id="myDataTable" class="table table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>#</th>
+                                                            <th><input type="checkbox" name="ids" class="checkAllClass" value="" /></th>
+                                                            <th>#</th> 
                                                             <th>Course title</th> 
                                                             <th>Class</th>                            
                                                             @if(auth()->user()->role == '1')
                                                             <th>Action</th>
                                                             @endif
-                                                        </tr>
+                                                        </tr> 
                                                     </thead>
                                                     <tbody>
                                                         @foreach($class_courses as $index=>$class_course)
                                                             <tr>
+                                                                <td><input type="checkbox" name="ids" class="checkSingleClass" value="{{ $class_course->id}}" /></td>
                                                                 <td>{{ $index+1 }}</td>
                                                                 <td>{{ $class_course->title }}</td>
                                                                 <td>{{ $class_course->name }} -- {{ $class_course->programme->name }}</td>

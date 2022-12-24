@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SIS | Log in</title>
+  <title>SIS| Password recover</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -19,65 +19,64 @@
   <div class="login-logo">
     <a href=""><b>Student Info's System</b></a>
   </div>
-  {{-- <div class="login-logo">
-    <div class="col mx-auto">
-      <div class="mb-4 text-center">
-        <img src="{{asset('admin-assets/dist/img/logo.png')}}" width="50%">
-      </div>
-    </div>
-  </div> --}}
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body">
-      @if(Session::has('success'))
-        <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-      @endif
-      @if(Session::has('error'))
-        <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
-      @endif
-      <p class="login-box-msg">Sign in to access your account</p>
-      <form action="{{ route('postLogin')}}" method="post">
+        @if(Session::has('success'))
+          <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
+        @endif
+        @if(Session::has('error'))
+          <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
+        @endif
+      <p class="login-box-msg">Recover your password now</p>
+      <form action="{{ route('studentUpdatePassword')}}" method="post">
         @csrf
+        @method('PUT')
+        <input type="hidden" name="token" value="{{ $token }}">
         <div class="input-group mb-2">
-          <input type="email" name="email" class="form-control" placeholder="Enter your email">
+          <input type="email" name="email" value="{{ $email }}" class="form-control" placeholder="Enter your email" readonly />
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
-            </div>
+            </div> 
           </div>
         </div>
         @error('email')
             <div class="text-danger">{{ $message }}</div>
         @enderror
         <div class="input-group mb-2">
-          <input type="password" name="password" class="form-control" placeholder="Enter your password">
+            <input type="password" name="password" class="form-control" placeholder="Enter your new password">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          @error('password')
+              <div class="text-danger">{{ $message }}</div>
+          @enderror
+        {{-- <div class="input-group mb-2">
+          <input type="password" name="repassword" class="form-control" placeholder="Repeat your new password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
         </div>
-        @error('password')
+        @error('repassword')
             <div class="text-danger">{{ $message }}</div>
-        @enderror
+        @enderror --}}
         <div class="row">
           <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-          </div>
-          <div class="col-6">
-            <p class="mb-1">
-              <a href="{{ route('studentGetLogin')}}">Student? login here</a>
-            </p>
-          </div>
-          <!-- /.col -->
-          <div class="col-6">
-            <p class="mb-1">
-              <a href="{{ route('getForgotPassword')}}">Forgot password?</a>
-            </p>
+            <button type="submit" class="btn btn-primary btn-block">Request new password</button>
           </div>
           <!-- /.col -->
         </div>
-      </form>    
+      </form>
+
+      <p class="mb-1">
+        <a href="{{route('getLogin')}}">You have an account? login here</a>
+      </p>
     </div>
     <!-- /.login-card-body -->
   </div>
@@ -85,9 +84,9 @@
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="{{ asset('admin-assets/plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{ asset('admin-assets/plugins/jquery/jquery.min.js')}}">"></script>
 <!-- Bootstrap 4 -->
-<script src="{{ asset('admin-assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{ asset('admin-assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}">"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('admin-assets/dist/js/adminlte.min.js')}}"></script>
 </body>

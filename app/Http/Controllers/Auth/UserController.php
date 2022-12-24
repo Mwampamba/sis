@@ -52,18 +52,26 @@ class UserController extends Controller
         return view('admin.staffs.add-staff', $title, compact('departments'));
     }
 
-    public function save(LecturerRequestForm $request)
+    public function save(Request $request)
     {
         $default_password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
-        $validatedData = $request->validated();
+        // $validatedData = $request->validated();
 
         $user = new User;
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
-        $user->department_id = $validatedData['department'];
-        $user->staff_id = $validatedData['staffID'];
-        $user->phone = $validatedData['phone'];
-        $user->role = $validatedData['role'];
+        // $user->name = $validatedData['name'];
+        // $user->email = $validatedData['email'];
+        // $user->department_id = $validatedData['department'];
+        // $user->staff_id = $validatedData['staffID'];
+        // $user->phone = $validatedData['phone'];
+        // $user->role = $validatedData['role'];
+        // $user->password = $default_password;
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->department_id = $request->department;
+        $user->staff_id = $request->staff_id;
+        $user->phone = $request->phone;
+        $user->role = $request->role;
         $user->password = $default_password;
 
         $user->save();
@@ -82,18 +90,16 @@ class UserController extends Controller
         }
     }
 
-    public function update(LecturerRequestForm $request, $staff_id)
+    public function update(Request $request, $staff_id)
     {
-        $validatedData = $request->validated();
-
         $user = User::findOrFail($staff_id);
 
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
-        $user->department_id = $validatedData['department'];
-        $user->staff_id = $validatedData['staffID'];
-        $user->phone = $validatedData['phone'];
-        $user->role = $validatedData['role'];
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->department_id = $request->department;
+        $user->staff_id = $request->staff_id;
+        $user->phone = $request->phone;
+        $user->role = $request->role;
 
         $user->update();
         return redirect()->route('staffs')->with('success', 'Lecturer has been updated successfully!');

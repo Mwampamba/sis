@@ -41,7 +41,7 @@ class LecturerRequestForm extends FormRequest
                 'required'
             ],
 
-            'staffID' => [
+            'staff_id' => [
                 'required'
             ],
 

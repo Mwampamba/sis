@@ -12,23 +12,22 @@
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
           <img src="{{asset('admin-assets/dist/img/logo.png')}}" class="user-image img-circle elevation-2" alt="User Image">
-          {{-- <span class="d-none d-md-inline">{{Auth::user()->empl_name}}</span> --}}
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <!-- User image -->
           <li class="user-header bg-primary">
             <img src="{{asset('admin-assets/dist/img/logo.png')}}" class="img-circle elevation-2" alt="User Image">
             <p>
-              {{Auth::user()->name}}
+              Student name
             </p>
           </li>
             <!-- /.row -->
           </li>
           <!-- Menu Footer-->
           <li class="user-footer">
-            <a href="{{ url('/auth/profile/'.Auth::user()->id)}}" class="btn btn-primary btn-flat">Profile</a>
-            <a href="{{ route('staffLogout')}}" class="btn btn-danger btn-flat float-right">Sign out</a>
-          </li> 
+            <a href="#" class="btn btn-primary btn-flat">Profile</a>
+            <a href="{{ route('logout')}}" class="btn btn-danger btn-flat float-right">Sign out</a>
+          </li>
         </ul>
       </li>
       <li class="nav-item">

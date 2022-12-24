@@ -61,8 +61,8 @@
 
                                                 <div class="col-md-5 mb-3">
                                                     <label for="">Staff ID</label>
-                                                    <input type="text" name="staffID" class="form-control" placeholder="Enter staff ID" />
-                                                    @error('staffID')
+                                                    <input type="text" name="staff_id" class="form-control" placeholder="Enter staff ID" />
+                                                    @error('staff_id')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>

@@ -14,16 +14,7 @@ use App\Http\Requests\Auth\StudentRequestForm;
 
 class StudentController extends Controller
 {
-
-    public function student_dashboard()
-    {
-        $title = [
-            'title' => 'SIS | Dashboard'
-        ];
-
-        return view('admin.student-dashboard', $title);
-    }
-    
+         
     public function index()
     {
         $title = [

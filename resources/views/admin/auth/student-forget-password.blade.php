@@ -29,7 +29,7 @@
         <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
       @endif
       <p class="login-box-msg">Write email to recover your account</p>
-      <form action="{{ route('postForgotPassword')}}" method="post">
+      <form action="{{ route('studentPostForgotPassword')}}" method="post">
         @csrf
         <div class="input-group mb-3">
           <input type="email" name="email" class="form-control" placeholder="Email address">

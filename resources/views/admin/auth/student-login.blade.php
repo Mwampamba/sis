@@ -29,7 +29,7 @@
     @endif
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in with email to access your accounts</p>
-      <form action="{{ route('studentLogin')}}" method="post">
+      <form action="{{ route('studentPostLogin')}}" method="post">
         @csrf
         <div class="input-group mb-2">
           <input type="email" name="email" class="form-control" placeholder="Enter your email">
@@ -54,16 +54,8 @@
             <div class="text-danger">{{ $message }}</div>
         @enderror
         <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" name="remember" id="remember">
-              <label for="remember">
-                Remember Me
-              </label>
-            </div>
-          </div>
           <!-- /.col -->
-          <div class="col-4">
+          <div class="col-12">
             <button type="submit" class="btn btn-primary btn-block">Sign in</button>
           </div>
           <!-- /.col -->
@@ -71,7 +63,7 @@
       </form>
 
       <p class="mb-1">
-        <a href="#">I forgot my password</a>
+        <a href="{{ route('studentGetForgotPassword')}}">forgot password? start here</a>
       </p>
     </div>
     <!-- /.login-card-body -->

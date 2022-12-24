@@ -6,10 +6,12 @@ use App\Models\Classes;
 use App\Models\Collage;
 use App\Models\Programme;
 use App\Models\ExaminationMark;
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Student extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class Student extends Authenticatable
 {
     use HasFactory;
 

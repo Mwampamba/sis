@@ -1,0 +1,27 @@
+SELECT 
+	students.reg_number, 
+	students.name,  
+    courses.title, 
+    courses.code, 
+    courses.status, 
+    courses.credit, 
+    examination_marks.score, 
+    grades.grade_name, 
+    grades.point, 
+    academic_years.name, 
+    semesters.name,
+    programmes.name
+    
+FROM examination_marks
+JOIN programmes ON examination_marks.programme_id = programmes.id
+JOIN students ON examination_marks.student_id = students.id
+JOIN courses ON examination_marks.course_id = courses.id
+JOIN grades ON examination_marks.grade_id = grades.id
+JOIN semesters ON examination_marks.semester_id = semesters.id
+JOIN academic_years ON examination_marks.academic_year_id = academic_years.id
+
+WHERE students.name = "Beno Mwampamba"
+
+ORDER BY examination_marks.score DESC;
+
+

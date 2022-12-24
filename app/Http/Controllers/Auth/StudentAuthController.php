@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
-use App\Models\User;
+use App\Models\Student;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,28 +12,35 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
-class AdminController extends Controller
+class StudentAuthController extends Controller
 {
     public function get_login()
     {
-        return view('admin.auth.login');
+        return view('admin.auth.student-login');
     }
 
     public function post_login(Request $request)
     {
-
-        if (Auth::attempt($request->only([
+        if(Auth::guard('student')->attempt($request->only([
             'email', 'password'
-        ]))) {
-            return redirect()->route('dashboard');
+        ])))  {
+            return redirect()->route('studentDashboard');
         } else {
             return redirect()->back()->with('error', 'You have entered invalid credentials');
         }
     }
 
+    public function dashboard()
+    {
+        $title = [
+            'title' => 'SIS | Dashboard'
+        ];
+        return view('admin.student-dashboard', $title);
+    }
+
     public function logout()
     {
-        Auth::logout();
+        Auth::guard('student')->logout();
         return redirect()->route('getLogin');
     }
 
@@ -42,13 +49,13 @@ class AdminController extends Controller
         $title = [
             'title' => 'SIS | Password recovery'
         ];
-        return view('admin.auth.forget-password', $title);
+        return view('admin.auth.student-forget-password', $title);
     }
 
     public function post_forgot_password(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email'
+            'email' => 'required|email|exists:students,email'
         ]);
 
         $token = Str::random(64);
@@ -58,7 +65,7 @@ class AdminController extends Controller
             'created_at' => Carbon::now()
         ]);
 
-        $activation_link = route('resetPassword', [
+        $activation_link = route('studentResetPassword', [
             'token' => $token,
             'email' => $request->email,
         ]);
@@ -68,7 +75,7 @@ class AdminController extends Controller
             'admin.auth.email-verification',
             ['activation_link' => $activation_link, 'body' => $body],
             function ($message) use ($request) {
-                $message->from('noreplay@sis.ac.tz', 'Student Information System');
+                $message->from('noreplay@sis.ac.tz','Student Information System');
                 $message->to($request->email, 'Your Name')
                     ->subject('Reset Password');
             }
@@ -79,7 +86,7 @@ class AdminController extends Controller
 
     public function reset_password(Request $request, $token = null)
     {
-        return view('admin.auth.update-password')->with(['token' => $token, 'email' => $request->email]);
+        return view('admin.auth.student-update-password')->with(['token' => $token, 'email' => $request->email]);
     }
 
     public function update_password(Request $request)
@@ -97,7 +104,7 @@ class AdminController extends Controller
         if (!$verified_token) {
             return back()->withInput()->with('error', 'Activation link is arleady expired!');
         } else {
-            User::where('email', $request->email)->update([
+            Student::where('email', $request->email)->update([
                 'password' => Hash::make($request->password)
             ]);
 
@@ -105,7 +112,10 @@ class AdminController extends Controller
                 'email' => $request->email
             ])->delete();
 
-            return redirect()->route('getLogin')->with('success', 'Your password has changed, you can now login with new credentials');
+            return redirect()->route('studentGetLogin')->with('success', 'Your password has changed, you can now login with new credentials');
         }
     }
+    
+
+
 }
