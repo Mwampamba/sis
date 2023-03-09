@@ -1,35 +1,12 @@
 @include('admin.includes.header')
 
 <body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-    <!-- Navbar -->
-    @include('admin.includes.navbar')
-
-    <!-- Main Sidebar Container -->
-
-    @include('admin.includes.sidebar')
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-            <div class="col-sm-6">
-                <h3 class="m-0">Examinations</h3>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item active">Examinations</li>
-                </ol>
-            </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-
-        <!-- Main content -->
+    <div class="wrapper"> 
+    @include('admin.includes.navbar') 
+    @include('admin.includes.sidebar') 
+    <div class="content-wrapper"> 
+        <div class="content-header"> 
+        </div> 
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -37,8 +14,11 @@
                                 <div class="card">
                                     @can('isAdmin')
                                         <div class="card-header">
-                                            <a href="#" class="btn btn-primary float-left">Bulk import examinations</a> 
-                                                <a href="{{ route('addExamination') }}" class="btn btn-success float-right">Add examination</a> 
+                                            <h3>Examinations
+                                                <a href="{{ route('addExamination') }}" class="btn btn-success float-right">Add new examination</a> 
+                                                <a href="{{ route('deactivatedExaminations')}}" class="btn btn-danger float-right" style="margin-right: 5px;">View deactivated examinations</a> 
+                                            </h3>
+                                            
                                         </div>
                                     @endcan
                                         <div class="card-body">
@@ -48,11 +28,12 @@
                                                     <tr> 
                                                         <th>#</th>
                                                         <th>Examination name</th>
-                                                        <th>Exam type</th>
-                                                        <th>Semester</th>
-                                                        <th>Academic year</th> 
-                                                        {{-- <th>Marking status</th>                                      --}}
+                                                        <th>Academic year</th>
+                                                        <th>Status</th>
                                                         <th>Action</th>
+                                                        @if(auth()->user()->role == '1') 
+                                                        <th>Action</th>
+                                                        @endif
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -60,12 +41,12 @@
                                                         <tr>
                                                             <td>{{ $index+1 }}</td>
                                                             <td>{{ $exam->exam_name }}</td>
-                                                            <td>{{ $exam->exam_type->exam_type }}</td>
-                                                            <td>{{ $exam->semester->name }}</td>
-                                                            <td>{{ $exam->academic_year->name}}</td>
-                                                            {{-- <td>{{ $exam->status == 1 ? 'Not marked' : 'Marked' }}</td> --}} 
-                                                            <td><a href="/auth/examinations/classes-exam/{{$exam->id}}" class="btn btn-secondary">View | Add marks</a></td>
-                                                            
+                                                            <td>{{ $exam->semester->name }} :: {{ $exam->academic_year->name}}</td>
+                                                            <td>{{ $exam->status == 1 ? 'Marked' : 'Deactivated' }}</td>
+                                                            <td><a href="{{ route('markExamination')}}" class="btn btn-secondary">View | Add marks</a></td>
+                                                            @if(auth()->user()->role == '1')
+                                                             <td><a href="{{ route('deactivateExamination', $exam->id )}}" onclick="return confirm('Are you sure you want to deactivate this exam?')" class="btn btn-danger">Deactivate</a></td>
+                                                             @endif
                                                         </tr>
                                                     @endforeach
                                                 </tbody>

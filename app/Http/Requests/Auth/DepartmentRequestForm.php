@@ -26,7 +26,7 @@ class DepartmentRequestForm extends FormRequest
         return [
             'name' => [
                 'required',
-                'string'
+                'unique:departments'
             ],
 
             'description' => [

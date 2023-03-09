@@ -7,13 +7,15 @@ use App\Models\Course;
 use App\Models\Classes;
 use App\Models\Student;
 use App\Models\Department;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\LecturerCourse;
 use App\Imports\LecturerImport;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Requests\Auth\LecturerRequestForm;
 
 class UserController extends Controller
 {
@@ -41,6 +43,23 @@ class UserController extends Controller
         return view('admin.staffs.index', $title, compact('staffs'));
     }
 
+    public function staff_profile($staff_id)
+    {
+        $title = [
+            'title' => 'SIS | Staff profile'
+        ];
+        $staff = User::findOrFail($staff_id);
+
+        if ($staff) {
+            $courses = LecturerCourse::join('users', 'course_user.user_id', 'users.id')
+                ->join('class_courses', 'class_courses.course_id', 'course_user.course_id')
+                ->join('courses', 'course_user.course_id', 'courses.id')->where('user_id', $staff->id)->get();
+            return view('admin.staffs.profile', $title, compact('staff', 'courses'));
+        } else {
+            return back()->with('message', 'No such record founded!');
+        }
+    }
+
     public function create()
     {
         $title = [
@@ -54,17 +73,10 @@ class UserController extends Controller
 
     public function save(Request $request)
     {
-        $default_password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
-        // $validatedData = $request->validated();
-
         $user = new User;
-        // $user->name = $validatedData['name'];
-        // $user->email = $validatedData['email'];
-        // $user->department_id = $validatedData['department'];
-        // $user->staff_id = $validatedData['staffID'];
-        // $user->phone = $validatedData['phone'];
-        // $user->role = $validatedData['role'];
-        // $user->password = $default_password;
+
+        $password = Str::random(8);
+        $hashed_password = Hash::make($password);
 
         $user->name = $request->name;
         $user->email = $request->email;
@@ -72,7 +84,34 @@ class UserController extends Controller
         $user->staff_id = $request->staff_id;
         $user->phone = $request->phone;
         $user->role = $request->role;
-        $user->password = $default_password;
+        $user->password = $hashed_password;
+
+        if ($request->hasfile('picture')) {
+
+            $image_path = 'profile/staff/';
+            $image_file = $request->file('picture');
+
+            $extension = $image_file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $image_file->move($image_path, $filename);
+            $final_image_path = $image_path . $filename;
+
+            $user->picture = $final_image_path;
+        }
+
+        $user->save();
+
+        $body = "You can now use this as your default password. Remember to change it";
+
+        Mail::send(
+            'admin.auth.default-password',
+            ['password' => $password, 'body' => $body],
+            function ($message) use ($request) {
+                $message->from('sis@sis.ac.tz', 'Student Information System');
+                $message->to($request->email, $request->name)
+                    ->subject('Default Password');
+            }
+        );
 
         $user->save();
         return redirect()->route('staffs')->with('success', 'Lecturer has been added successfully!');
@@ -80,11 +119,14 @@ class UserController extends Controller
 
     public function edit($staff_id)
     {
+        $title = [
+            'title' => 'SIS | Update staff'
+        ];
         $staff = User::findOrFail($staff_id);
         $departments = Department::all();
 
         if ($staff) {
-            return view('admin.staffs.edit-staff', compact('staff', 'departments'));
+            return view('admin.staffs.edit-staff', $title, compact('staff', 'departments'));
         } else {
             return back()->with('message', 'No such staff record founded!');
         }
@@ -99,7 +141,20 @@ class UserController extends Controller
         $user->department_id = $request->department;
         $user->staff_id = $request->staff_id;
         $user->phone = $request->phone;
-        $user->role = $request->role;
+        $user->role = $request->role; 
+
+        if ($request->hasfile('picture')) {
+
+            $image_path = 'profile/staff/';
+            $image_file = $request->file('picture');
+
+            $extension = $image_file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $image_file->move($image_path, $filename);
+            $final_image_path = $image_path . $filename;
+
+            $user->picture = $final_image_path;
+        }
 
         $user->update();
         return redirect()->route('staffs')->with('success', 'Lecturer has been updated successfully!');
@@ -110,7 +165,7 @@ class UserController extends Controller
         $user = User::findOrFail($staff_id);
 
         $user->delete();
-        return redirect()->route('staffs')->with('delete', 'Lecturer has been deleted successfully!');
+        return redirect()->route('staffs')->with('error', 'Lecturer has been deleted successfully!');
     }
 
 
@@ -143,36 +198,21 @@ class UserController extends Controller
         return view('admin.profile', $title, compact('staff'));
     }
 
-
-    public function profile_update(LecturerRequestForm $request)
+    public function profile_update(Request $request)
     {
- 
-        dd($request);
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:8',
+            'confirm_password' => 'required|same:new_password',
+        ]);
 
-        // $validatedData = $request->validated();
-        // $old_password = $validatedData['old_password'];
+        $current_user = Auth::user();
 
-        // $user = User::findOrFail($staff_id);
-
-        // $results = $user->where('password', $old_password)->get();
-
-
-        // if ($results) {
-        //     $new_password = $validatedData['new_password'];
-        //     $confirm_password = $validatedData['confirm_password'];
-
-        //     if ($new_password === $confirm_password) {
-
-        //         User::where('email', $request->email)->update([
-        //             'password' => Hash::make($new_password)
-        //         ]);
-        //         return redirect()->route('profile')->with('success', 'Profile has been updated successfully!');
-        //     } else {
-        //         return back()->with('error', 'New password MUST match!');
-        //     }
-        // } else {
-        //     return back()->with('error', 'Wrong old password!');
-        // }
+        if (Hash::check($request->old_password, $current_user->password)) {
+            $current_user->password = Hash::make($request->new_password);
+            return redirect()->back()->with('success', 'Profile has been updated successfully!');
+        } else {
+            return back()->with('error', 'Old password is not corrent!');
+        }
     }
-
 }

@@ -20,6 +20,7 @@ class ClassCourse extends Model
     public function programme()
     {
         return $this->belongsTo(Programme::class);
+        
     }
 
     public function courses()

@@ -1,105 +1,88 @@
 @include('admin.includes.header')
-
 <body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-    <!-- Navbar -->
-    @include('admin.includes.navbar')
-
-    <!-- Main Sidebar Container -->
-
-    @include('admin.includes.sidebar')
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
+    <div class="wrapper"> 
+    @include('admin.includes.navbar') 
+    @include('admin.includes.sidebar') 
+    <div class="content-wrapper"> 
+        @can('isAdmin')
         <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0">Dashboard</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
-                </ol>
-            </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-        <!-- Main content -->
-        <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h5 class="m-0">Dashboard</h5>
+                    </div> 
+                </div> 
+            </div> 
+            </div> 
+            <section class="content">
             <div class="row">
-                <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>{{ $students }}</h3>
-            
-                    <p>Students</p>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-copy"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text"><a href="{{ route('courses')}}">Courses</a></span>
+                      <span class="info-box-number">
+                        {{ $courses }}
+                      </span>
                     </div>
-                    <div class="icon">
-                    <i class="fa fa-user-graduate"></i>
+                    <!-- /.info-box-content -->
+                  </div>
+                  <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="info-box mb-3">
+                    <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-building"></i></span>
+      
+                    <div class="info-box-content">
+                      <span class="info-box-text"><a href="{{ route('classes')}}">Classes</a></span>
+                      <span class="info-box-number">{{ $classes}}</span>
                     </div>
-                    <a href="{{ route('students') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- /.info-box-content -->
+                  </div>
+                  <!-- /.info-box -->
                 </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>{{ $lecturers }}</h3>
-            
-                    <p>Lecturers</p>
+                <!-- /.col -->
+      
+                <!-- fix for small devices only -->
+                <div class="clearfix hidden-md-up"></div>
+      
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
+      
+                    <div class="info-box-content">
+                      <span class="info-box-text"><a href="{{ route('staffs')}}">Staffs</a></span>
+                      <span class="info-box-number">{{ $lecturers }}</span>
                     </div>
-                    <div class="icon">
-                    <i class="fa fa-users"></i>
+                    <!-- /.info-box-content -->
+                  </div>
+                  <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="info-box mb-3">
+                    <span class="info-box-icon bg-warning elevation-1"><i class="nav-icon fa fa-user-graduate"></i></span>
+      
+                    <div class="info-box-content">
+                      <span class="info-box-text"><a href="{{ route('students') }}"> Students</a></span>
+                      <span class="info-box-number">{{ $students }}</span>
                     </div>
-                    <a href="{{ route('staffs')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- /.info-box-content -->
+                  </div>
+                  <!-- /.info-box -->
                 </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>{{ $classes }}</h3>
-            
-                    <p>Classes</p>
-                    </div>
-                    <div class="icon">
-                    <i class="fa fa-building"></i>
-                    </div>
-                    <a href="{{ route('classes')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>{{ $courses }}</h3>
-            
-                    <p>Courses</p>
-                    </div>
-                    <div class="icon">
-                    <i class="fa fa-copy"></i>
-                    </div>
-                    <a href="{{ route('courses')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-                </div>
-                <!-- ./col -->
-            </div>
-                {{-- @yield('body') --}}
+                <!-- /.col -->
+              </div>
+            </section>
+        @endcan
 
-        </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
+        @if(Auth::user()->role == 0)
+            <div class="card-header">
+                <h4 class="m-0">Welcome, {{ Auth::user()->name}}</h4>
+            </div> 
+
+        @endif
     </div>
-    <!-- /.content-wrapper -->
    
     @include('admin.includes.footer')

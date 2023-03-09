@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\Auth\LoginRequestForm;
 
 class AdminController extends Controller
 {
@@ -19,14 +20,22 @@ class AdminController extends Controller
         return view('admin.auth.login');
     }
 
-    public function post_login(Request $request)
+    public function post_login(LoginRequestForm $request)
     {
-
         if (Auth::attempt($request->only([
             'email', 'password'
         ]))) {
             return redirect()->route('dashboard');
         } else {
+
+            if (Auth::guard('student')->attempt($request->only([
+                'email', 'password'
+            ]))) {
+                return redirect()->route('studentDashboard');
+            } else {
+                return redirect()->back()->with('error', 'You have entered invalid credentials');
+            }
+
             return redirect()->back()->with('error', 'You have entered invalid credentials');
         }
     }
@@ -62,19 +71,19 @@ class AdminController extends Controller
             'token' => $token,
             'email' => $request->email,
         ]);
-        $body = "You can now reset your password by clicking the link below";
+        $body = "You can reset your password by clicking the link below";
 
         Mail::send(
             'admin.auth.email-verification',
             ['activation_link' => $activation_link, 'body' => $body],
             function ($message) use ($request) {
                 $message->from('noreplay@sis.ac.tz', 'Student Information System');
-                $message->to($request->email, 'Your Name')
+                $message->to($request->email, $request->email)
                     ->subject('Reset Password');
             }
         );
 
-        return redirect()->back()->with('success', 'We have sent password recovery link to your email');
+        return redirect()->back()->with('success', 'We have sent you recovery link to your email');
     }
 
     public function reset_password(Request $request, $token = null)
@@ -86,7 +95,8 @@ class AdminController extends Controller
     {
         $request->validate([
             'email' => 'required|email|exists:users,email',
-            'password' => 'required'
+            'password' => 'required|min:8',
+            'repeat_password' => 'required|same:password'
         ]);
 
         $verified_token = DB::table('password_resets')->where([
@@ -100,6 +110,20 @@ class AdminController extends Controller
             User::where('email', $request->email)->update([
                 'password' => Hash::make($request->password)
             ]);
+
+            $body = "You have successfully changed your SIS password. Thank you for using our application";
+            $remote_address =  $request->ip();
+            $current_date = now()->format('d-m-Y') . ', ' . now()->format('H:i:s');
+
+            Mail::send(
+                'admin.auth.password-update-verification',
+                ['body' => $body, 'remote_address' =>  $remote_address, 'current_date' => $current_date],
+                function ($message) use ($request) {
+                    $message->from('noreplay@sis.ac.tz', 'Student Information System');
+                    $message->to($request->email, $request->email)
+                        ->subject('Password Changes');
+                }
+            );
 
             DB::table('password_resets')->where([
                 'email' => $request->email

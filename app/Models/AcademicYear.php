@@ -8,10 +8,11 @@ use App\Models\Examination;
 use App\Models\ExaminationMark;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AcademicYear extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     
     protected $table = 'academic_years';
     
@@ -23,7 +24,7 @@ class AcademicYear extends Model
 
     public function semester()
     {
-        return $this->belongsTo(Semester::class);
+        return $this->hasMany(Semester::class)->withTrashed();
     }
 
     public function class()

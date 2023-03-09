@@ -26,6 +26,7 @@ class AcademicYearRequestForm extends FormRequest
         return [
             'name' => [
                 'required',
+                'unique:academic_years',
                 'string'
             ],
 
@@ -34,7 +35,7 @@ class AcademicYearRequestForm extends FormRequest
             ],
             
             'status' => [
-                'integer'
+                'required'
             ]
         ];
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AcademicYearRequestForm;
 use App\Models\AcademicYear;
+use Illuminate\Http\Request;
 
 class AcademicYearController extends Controller
 {
@@ -13,7 +14,7 @@ class AcademicYearController extends Controller
         $title = [
             'title' => 'SIS | Academic years'
         ];
-        $years = AcademicYear::orderBy('id', 'DESC')->get();
+        $years = AcademicYear::where('status', '1')->orderBy('created_at', 'DESC')->get();
         return view('admin.academic-years.index', $title, compact('years'));
     }
 
@@ -49,23 +50,57 @@ class AcademicYearController extends Controller
         return view('admin.academic-years.edit-year', $title, compact('year'));
     }
 
-    public function update(AcademicYearRequestForm $request, $year_id)
+    public function update(Request $request, $year_id)
     {
         $year = AcademicYear::findOrFail($year_id);
-        $validatedData = $request->validated();
-
-        $year->name = $validatedData['name'];
-        $year->description = $validatedData['description'];
+        $year->name = $request->name;
+        $year->description = $request->description;
         $year->status = $request->status == true ? '1' : '0';
 
         $year->update();
         return redirect()->route('academicYears')->with('success', 'Academic year has been updated successfully!');
     }
 
-    public function destroy($year_id)
+
+    public function deactivated_academic_years()
+    {
+        $title = [
+            'title' => 'SIS | Deactivated academic years'
+        ];
+        $years = AcademicYear::where('status', '0')->orderBy('created_at', 'DESC')->get();
+        return view('admin.academic-years.archive', $title, compact('years'));
+    }
+
+    public function deactivate($year_id)
     {
         $year = AcademicYear::findOrFail($year_id);
-        $year->delete();
-        return redirect()->route('academicYears')->with('delete', 'Academic year has been deleted successfully!');
+
+        if ($year) {
+            $year->status = '0';
+            $year->update();
+            return redirect()->route('academicYears')->with('error', 'Academic year has been deactivated');
+        }
+
+    }
+
+    public function restore_academic_year($year_id)
+    {
+        $year = AcademicYear::findOrFail($year_id);
+        if ($year) {
+            $year->status = '1';
+            $year->save();
+
+            return redirect()->route('academicYears')->with('success', 'Academic year has been restored successfully!');
+        }
+    }
+
+    public function destory($year_id)
+    {
+        $year = AcademicYear::findOrFail($year_id);
+        if ($year) {
+            $year->delete();
+
+            return redirect()->route('academicYears')->with('error', 'Academic year has been deleted permanent!!');
+        }
     }
 }

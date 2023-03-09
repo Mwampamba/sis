@@ -17,7 +17,7 @@ class ClassController extends Controller
         $title = [
             'title' => 'SIS | Classes'
         ];
-        $classes = Classes::all();
+        $classes = Classes::where('status', 1)->get();
 
         return view('admin.classes.index', $title, compact('classes'));
     }
@@ -27,7 +27,7 @@ class ClassController extends Controller
         $title = [
             'title' => 'SIS | Students'
         ];
-        $students = Student::where('class_id', $class_id)->orderBy('name', 'ASC')->get();
+        $students = Student::where('class_id', $class_id)->where('status', 1)->orderBy('name', 'ASC')->get();
         return view('admin.students.index', $title, compact('students'));
     }
 
@@ -54,6 +54,7 @@ class ClassController extends Controller
         $class->collage_id = $validatedData['collage'];
         $class->academic_year_id = $validatedData['year'];
         $class->description = $validatedData['description'];
+        $class->status = '1';
 
         $class->save();
         return redirect()->route('classes')->with('success', 'Class has been added successfully!');

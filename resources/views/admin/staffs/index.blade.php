@@ -1,35 +1,16 @@
 @include('admin.includes.header')
 
 <body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-    <!-- Navbar -->
-    @include('admin.includes.navbar')
-
-    <!-- Main Sidebar Container -->
-
-    @include('admin.includes.sidebar')
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
+    <div class="wrapper"> 
+    @include('admin.includes.navbar') 
+    @include('admin.includes.sidebar') 
+    <div class="content-wrapper"> 
         <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-            <div class="col-sm-6">
-                <h3 class="m-0">Lecturers</h3>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item active">Lecturers</li>
-                </ol>
-            </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-
-        <!-- Main content -->
+            </div> 
+        </div> 
+        </div> 
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -37,9 +18,12 @@
                                 <div class="card">
                                     @if(auth()->user()->role == '1')
                                     <div class="card-header">
-                                            <a href="{{ route('bulkAddStaffs')}}" class="btn btn-primary float-left">Bulk import lecturers</a> 
-                                            <a href="{{ route('addStaff')}}" class="btn btn-success float-right">Add lecturer</a> 
-                                    </div>
+                                        <h3>Staffs
+                                            <a href="{{ route('addStaff')}}" class="btn btn-success float-right" style="margin-right: 5px;">Register new staff</a> 
+                                            <a href="{{ route('bulkAddStaffs')}}" class="btn btn-primary float-right" style="margin-right: 5px;">Register new staff(s) using excel</a>
+                                            
+                                        </h3>
+                                     </div>
                                     @endif
                                         <div class="card-body">
                                             <div class="card">
@@ -47,13 +31,13 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Name</th>   
+                                                        <th>Staff name</th>   
                                                         <th>Email address</th>  
                                                         <th>Department</th>                                   
                                                         @if(auth()->user()->role == '1')
                                                         <th>Profile</th>    
-                                                        <th>Edit</th>
-                                                        <th>Delete</th>
+                                                        <th>Action</th>
+                                                        <th>Action</th>
                                                         @endif
                                                     </tr>
                                                 </thead>
@@ -65,9 +49,9 @@
                                                             <td>{{ $staff->email }}</td>
                                                             <td>{{ $staff->department->name }}</td>
                                                             @if(auth()->user()->role == '1')
-                                                            <td>{{ $staff->role != 0 ? 'Admin' : 'Lecturer' }}</td>
+                                                            <td><a href="{{ route('staffProfile', $staff->id) }}" class="btn btn-secondary">Profile</a></td>
                                                             <td><a href="/auth/staffs/{{$staff->id}}" class="btn btn-warning">Edit</a></td>
-                                                            <td><a href="/auth/staffs/delete/{{$staff->id}}" onclick="return confirm('Are you sure you want to delete this lecturer?')" class="btn btn-danger">Delete</a></td>
+                                                            <td><a href="/auth/staffs/delete/{{$staff->id}}" onclick="return confirm('Are you sure you want to delete this staff?')" class="btn btn-danger">Delete</a></td>
                                                             @endif
                                                         </tr>
                                                     @endforeach

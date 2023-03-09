@@ -25,21 +25,22 @@ class StudentRequestForm extends FormRequest
     {
         return [
             'name' => [
-                'required',
-                'string'
+                'required'
             ],
 
             'email' => [
                 'required',
-                'email'
+                'unique:students'
             ],
 
             'phone' => [
-                'required'
+                'required',
+                'unique:students'
             ],
 
-            'reg_no' => [
-                'required'
+            'reg_number' => [
+                'required',
+                'unique:students'
             ],
 
             'class' => [
@@ -53,6 +54,7 @@ class StudentRequestForm extends FormRequest
             'collage' => [
                 'required'
             ],
+ 
         ];
     }
 }

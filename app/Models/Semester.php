@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Course;
 use App\Models\Examination;
 use App\Models\AcademicYear;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Semester extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'semesters';
     
@@ -19,6 +21,7 @@ class Semester extends Model
         'description',
     ];
 
+
     public function academic_year()
     {
         return $this->belongsTo(AcademicYear::class);
@@ -27,5 +30,10 @@ class Semester extends Model
     public function examination()
     {
         return $this->hasOne(Examination::class);
+    }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
     }
 }

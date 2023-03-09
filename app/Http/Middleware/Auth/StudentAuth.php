@@ -17,11 +17,12 @@ class StudentAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::guard('student')->check()) 
+        if (!Auth::guard('student')->check()) {
             if ((!auth()->guard('student')->id())) {
-                return redirect()->route('studentGetLogin')->with('error', 'You do not have permission to access the page');
+                return redirect()->route('getLogin')->with('error', 'You have to login to access the page');
             } else {
-            return redirect()->route('studentGetLogin')->with('error', 'You must log in to access the page');
+                return redirect()->route('getLogin')->with('error', 'You do not have permission to access the page');
+            }
         }
         return $next($request);
     }

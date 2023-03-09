@@ -11,36 +11,23 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Profile</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Profile</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
 
-    <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-3">
-
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
+                @if(Auth::user()->picture)
                 <div class="text-center">
-                    <img src="{{asset('admin-assets/dist/img/logo.png')}}" class="img-circle elevation-2" alt="User Image">
+                  <img src="{{ asset('profile/staff/'.Auth::user()->picture) }}" class="img-rounded border elevation-2" style="width:200px;height:190px" alt="Student profile">
                 </div>
-
+                @else
+                <div class="text-center">
+                  <img src="{{ asset('profile/staff/default-profile.jpg') }}" class="img-rounded border elevation-2" style="width:200px;height:190px" alt="Student profile">
+                </div>
+                @endif
                 <h5 class="profile-username text-center">{{ Auth::user()->name }}</h5>
                 <p class="profile-username text-center">{{ Auth::user()->role != 0 ? 'Adminstrator' : 'Lecturer' }}</p>
               </div>
@@ -52,15 +39,9 @@
           <div class="col-md-9">
             <div class="card">
               <div class="card-header p-2">
-                <h2>Update profile</h2>
+                <h2>Update your password</h2>
               </div>
               <div class="card-body">
-                @if(Session::has('success'))
-                    <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-                @endif
-                @if(Session::has('delete'))
-                    <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
-                @endif
                 <form action="{{ url('/auth/profile/'.Auth::user()->id) }}" method="POST">
                     @csrf
                     @method('PUT')

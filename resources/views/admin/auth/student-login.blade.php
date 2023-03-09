@@ -17,7 +17,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href=""><b>Student Info's System</b></a>
+    <a href="{{ url('/')}}"><b>Student Info's System</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">

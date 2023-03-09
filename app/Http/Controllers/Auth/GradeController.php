@@ -32,9 +32,9 @@ class GradeController extends Controller
         $validatedData = $request->validated();
 
         $grade = new Grade();
-        $grade->name = $validatedData['name'];
-        $grade->mark_from = $validatedData['markFrom'];
-        $grade->mark_up_to = $validatedData['markupTo'];
+        $grade->grade_name = $validatedData['grade'];
+        $grade->mark_from = $validatedData['mark_from'];
+        $grade->mark_up_to = $validatedData['mark_up_to'];
         $grade->point = $validatedData['point'];
         $grade->remarks = $validatedData['remarks'];
 
@@ -54,12 +54,14 @@ class GradeController extends Controller
 
     public function update(GradeRequestForm $request, $grade_id)
     {
+        dd($request);
         $validatedData = $request->validated();
+        
         $grade = Grade::findOrFail($grade_id);
 
-        $grade->name = $validatedData['name'];
-        $grade->mark_from = $validatedData['markFrom'];
-        $grade->mark_up_to = $validatedData['markupTo'];
+        $grade->grade_name = $validatedData['grade'];
+        $grade->mark_from = $validatedData['mark_from'];
+        $grade->mark_up_to = $validatedData['mark_up_to'];
         $grade->point = $validatedData['point'];
         $grade->remarks = $validatedData['remarks'];
 
@@ -71,6 +73,6 @@ class GradeController extends Controller
     {
         $grade = Grade::findOrFail($grade_id);
         $grade->delete();
-        return redirect()->route('grades')->with('delete', 'Grade has been deleted successfully!');
+        return redirect()->route('grades')->with('error', 'Grade has been deleted successfully!');
     }
 }

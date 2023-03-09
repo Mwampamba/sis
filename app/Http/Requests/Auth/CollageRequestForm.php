@@ -26,7 +26,7 @@ class CollageRequestForm extends FormRequest
         return [
             'name' => [
                 'required',
-                'string'
+                'unique:collages'
             ],
 
             'description' => [

@@ -17,7 +17,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href=""><b>Student Info's System</b></a>
+    <a href="{{ url('/')}}"><b>Student Info's System</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -42,13 +42,15 @@
         @error('email')
           <div class="text-danger">{{ $message }}</div>
         @enderror
-      </div>
-        <div class="row">
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block">Request new password</button>
-          </div>
-          <!-- /.col -->
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary btn-block">Request new password</button>
         </div>
+        <div class="col-12">
+          <p class="mb-3">
+            <a href="{{ route('studentGetForgotPassword')}}" class="form-control float-right">Are you a student? please click here</a>
+          </p>
+        </div>
+      </div>
       </form>
     </div>
     <!-- /.login-card-body -->

@@ -4,8 +4,11 @@ namespace App\Imports;
 
 use App\Models\Classes;
 use App\Models\Collage;
-use App\Models\Programme;
 use App\Models\Student;
+use App\Models\Programme;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -31,17 +34,34 @@ class StudentImport implements ToModel, WithHeadingRow
         $class = $this->class->where('name', $row['class'])->first();
         $programme = $this->programme->where('name', $row['programme'])->first();
         $collage = $this->collage->where('name', $row['collage'])->first();
-        $default_password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
 
-        return new Student([
-            'name' => $row['name'],
-            'email' => $row['email'],
-            'phone' => $row['phone'],
-            'reg_number' => $row['registration_number'],
-            'class_id' => $class->id ?? NULL,
-            'programme_id' => $programme->id ?? NULL,
-            'collage_id' => $collage->id ?? NULL,
-            'password' => $default_password
-        ]);
-    }
+        $student = new Student();
+
+        $student->name = $row['name'];
+        $student->phone = $row['phone'];
+        $student->email = $row['email'];
+        $student->reg_number = $row['registration_number'];
+        $student->class_id = $class->id;
+        $student->programme_id = $programme->id;
+        $student->collage_id = $collage->id;
+
+        $password = Str::random(8);
+        $hashed_password = Hash::make($password);
+        $student->password = $hashed_password;
+
+        $student->save();
+
+        $body = "You can now use this as your default password. Remember to change it";
+
+        Mail::send(
+            'admin.auth.default-password',
+            ['password' => $password, 'body' => $body],
+            function ($message) use ($student) {
+                $message->from('info@sis.ac.tz', 'Student Information System');
+                $message->to($student->email, $student->name)
+                    ->subject('Default Password');
+            }
+        );
+        return $student;
+       }
 }

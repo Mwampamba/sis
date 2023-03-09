@@ -13,7 +13,7 @@ class CollageController extends Controller
         $title = [
             'title' => 'SIS | Collages'
         ];
-        $collages = Collage::orderBy('id', 'DESC')->get();
+        $collages = Collage::orderBy('created_at', 'DESC')->get();
 
         return view('admin.collages.index', $title, compact('collages'));
     }
@@ -34,7 +34,6 @@ class CollageController extends Controller
         $collage = new Collage();
         $collage->name = $validatedData['name'];
         $collage->description = $validatedData['description'];
-        $collage->status = $request->status == true ? '1' : '0';
 
         $collage->save();
         return redirect()->route('collages')->with('success', 'Collage has been added successfully!');
@@ -57,7 +56,6 @@ class CollageController extends Controller
 
         $collage->name = $validatedData['name'];
         $collage->description = $validatedData['description'];
-        $collage->status = $request->status == true ? '1' : '0';
 
         $collage->update();
         return redirect()->route('collages')->with('success', 'Collage has been updated successfully!');
@@ -67,7 +65,7 @@ class CollageController extends Controller
     {
         $collage = Collage::findOrFail($collage_id);
         $collage->delete();
-        return redirect()->route('collages')->with('delete', 'Collage has been deleted successfully!');
+        return redirect()->route('collages')->with('error', 'Collage has been deleted successfully!');
     }
 }
 

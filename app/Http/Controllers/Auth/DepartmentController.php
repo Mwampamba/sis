@@ -34,7 +34,6 @@ class DepartmentController extends Controller
         $department = new Department();
         $department->name = $validatedData['name'];
         $department->description = $validatedData['description'];
-        $department->status = $request->status == true ? '1' : '0';
 
         $department->save();
         return redirect()->route('departments')->with('success', 'Department has been added successfully!');
@@ -57,7 +56,6 @@ class DepartmentController extends Controller
 
         $department->name = $validatedData['name'];
         $department->description = $validatedData['description'];
-        $department->status = $request->status == true ? '1' : '0';
 
         $department->update();
         return redirect()->route('departments')->with('success', 'Department has been updated successfully!');
@@ -67,6 +65,6 @@ class DepartmentController extends Controller
     {
         $department = Department::findOrFail($department_id);
         $department->delete();
-        return redirect()->route('departments')->with('delete', 'Department has been deleted successfully!');
+        return redirect()->route('departments')->with('error', 'Department has been deleted successfully!');
     }
 }

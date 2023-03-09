@@ -51,58 +51,73 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  {{-- <script>
-    const form = document.querySelector("form");
-    fileInput = form.querySelector(.file);
-    progressArea = document.querySelector(".progress-area");
-    uploadeArea = document.querySelector(".uploaded-area");
-
-    form.addEventListener("click", ()=>){
-      fileInput.click();
-    };
-
-    fileInput.onchange = ({target}) =>{
-      let file = target.files[0];
-      if(file){
-        let fileName = file.name;
-        uploadFile(fileName);
-      }
+  <script>
+    function previewFile(input) {
+        var file = $("input[type=file]").get(0).files[0];
+        if(file){
+            var reader = new FileReader();
+            reader.onload = function(){
+                $('#previewImg').attr('src', reader.result);
+            }
+                reader.readAsDataURL(file);
+            }
     }
+</script>
+   <!-- Examination marks -->
+  <script>
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+      }
+    });
 
-    function uploadFile(fileName){
-      let xhr = new XMLHttpRequest();
-      xhr.open("POST", "/auth/students/bulk-add-students");
-      xhr.upload.addEventListener("progress", e =>{
-        console.log(e);
+    $(document).ready(function(){
+
+      $("#year").change(function(){
+        var year_id = $(this).val();
+
+        if(year_id == ""){
+          year_id = 0;
+        }
+        $.ajax({ 
+          url: '{{ url("/auth/examinations/fetch-examination/")}}/'+year_id,
+          type: 'post',
+          dataType: 'json',
+          success: function(response){
+
+            $('#exams').find('option:not(:first)').remove();
+
+            if(response['exams'].length > 0){
+              $.each(response['exams'], function(key,value){
+                $("#exam").append("<option id='"+value['id']+"'>"+value['exam_name']+"</option>")
+              });
+            }
+          }
+        });
       });
 
-      let formData = new FormData(form);
-      xhr.send(formData);
+    });
 
-    }
-  </script> --}}
+  </script>
 
+ <!-- Select2 options -->
   <script>
     $(document).ready( function(){
-      $('#myDataTable').DataTable();
-      $('.courses').select2(); 
-      $('.classes').select2();
-      $('.lecturers').select2(); 
-      $('.department').select2(); 
-      $('.collage').select2(); 
-      $('.programme').select2(); 
+      $('#myDataTable').DataTable(); 
+      $('.selector').select2(); 
     });
   </script>
 
+   <!-- Toastr popup -->
   @if(Session::has('success'))
     <script>
       toastr.success("{!! Session::get('success') !!}");
     </script>
   @endif
 
-  @if(Session::has('delete'))
+  @if(Session::has('error'))
     <script>
-      toastr.success("{!! Session::get('delete') !!}");
+      toastr.error("{!! Session::get('error') !!}");
     </script>
   @endif
 

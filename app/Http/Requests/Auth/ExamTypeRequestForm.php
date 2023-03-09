@@ -24,8 +24,9 @@ class ExamTypeRequestForm extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'required'
+            'exam_type' => [
+                'required',
+                'unique:exam_types'
             ],
 
             'description' => [
@@ -34,7 +35,7 @@ class ExamTypeRequestForm extends FormRequest
             
             'status' => [
                 'required'
-            ]
+            ] 
         ];
     }
 }

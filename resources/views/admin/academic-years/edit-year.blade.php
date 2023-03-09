@@ -41,23 +41,23 @@
                                         </h4>
                                     </div>
                                     <div class="card-body">
-                                        <form action="{{ url('/auth/years/'.$year->id)}}" method="POST">
+                                        <form action="{{ route('updateAcademicYear',$year->id)}}" method="POST">
                                             @csrf
                                             @method('PUT')
                                             <div class="row">
                                                 <div class="col-md-6 mb-3">
-                                                    <label for="">Name</label>
-                                                    <input type="text" name="name" value="{{ $year->name }}" class="form-control" placeholder="Enter academic year name" />
+                                                    <label for="">Academic year name<span class="text-danger">*</span></label>
+                                                    <input type="text" name="name" value="{{ $year->name }}" class="form-control" placeholder="Academic year name" />
                                                     @error('name')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <label for="">Status</label>
-                                                    <select name="status" class="form-control">
+                                                    <label for="">Status<span class="text-danger">*</span></label>
+                                                    <select name="status" class="form-control selector">
                                                         <option value="">Select status</option>
                                                         <option value="1" {{ $year->status == '1' ? 'selected': '' }}>Active</option>
-                                                        <option value="0" {{ $year->status == '0' ? 'selected': '' }}>Not active</option>
+                                                        <option value="0" {{ $year->status == '0' ? 'selected': '' }}>Deactivated</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-12 mb-3">
@@ -65,7 +65,7 @@
                                                     <textarea name="description" class="form-control" rows="5">{{ $year->description }}</textarea>
                                                 </div>
                                                 <div class="col-md-12 mb-3">
-                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                    <button type="submit" class="btn btn-primary">Update academic year</button>
                                                 </div>
                                             </div>
                                         </form>

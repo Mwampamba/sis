@@ -32,7 +32,7 @@ return new class extends Migration
             $table->foreign('examination_id')->references('id')->on('examinations')->onDelete('cascade');
             $table->foreign('semester_id')->references('id')->on('semesters')->onDelete('cascade');
             $table->foreign('academic_year_id')->references('id')->on('academic_years')->onDelete('cascade');
-            $table->timestamps();;
+            $table->timestamps();
         });
     }
 

@@ -1,35 +1,16 @@
 @include('admin.includes.header')
-
 <body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-    <!-- Navbar -->
+    <div class="wrapper"> 
     @include('admin.includes.navbar')
 
-    <!-- Main Sidebar Container -->
-
     @include('admin.includes.sidebar')
-
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-            <div class="col-sm-6">
-                <h3 class="m-0">Students</h3>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item active">Students</li>
-                </ol>
-            </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+            </div>
+        </div> 
         </div>
-        <!-- /.content-header -->
-
-        <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -37,8 +18,10 @@
                                 <div class="card">
                                     @if(auth()->user()->role == '1')
                                     <div class="card-header">
-                                            <a href="{{route('bulkAddstudents')}}" class="btn btn-primary float-left">Bulk import students</a> 
-                                            <a href="{{ route('addStudent')}}" class="btn btn-success float-right">Add student</a> 
+                                        <h3>Students
+                                            <a href="{{ route('addStudent')}}" class="btn btn-success float-right" style="margin-right: 5px;">Register new student</a> 
+                                            <a href="{{route('bulkAddstudents')}}" class="btn btn-primary float-right" style="margin-right: 5px;">Register new student(s) using excel</a> 
+                                        </h3>
                                     </div>
                                     @endif
                                         <div class="card-body">
@@ -48,11 +31,12 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Student name</th>    
-                                                        <th>Class</th>
-                                                        <th>Programme of study</th>                                         
-                                                        @if(auth()->user()->role == '1')   
-                                                        <th>Edit</th>
-                                                        <th>Delete</th>
+                                                        <th>Programme of study</th>                                        
+                                                        @if(auth()->user()->role == '1') 
+                                                        <th>Profile</th>  
+                                                        <th>Action</th>
+                                                        <th>Action</th>
+                                                        <th>Action</th>
                                                         @endif
                                                     </tr>
                                                 </thead>
@@ -61,11 +45,12 @@
                                                         <tr>
                                                             <td>{{ $index+1 }}</td>
                                                             <td>{{ $student->name }}</td>
-                                                            <td>{{ $student->class->name }}</td>
-                                                            <td>{{ $student->programme->name }}</td>
+                                                            <td>{{ $student->class->name }} :: {{ $student->programme->name }}</td>
                                                             @if(auth()->user()->role == '1')
+                                                            <td><a href="{{ route('studentTranscript', $student->id)}}" class="btn btn-secondary">Profile</a></td>
                                                             <td><a href="/auth/students/{{$student->id}}" class="btn btn-warning">Edit</a></td>
-                                                            <td><a href="/auth/students/delete/{{$student->id}}" onclick="return confirm('Are you sure you want to delete this lecturer?')" class="btn btn-danger">Delete</a></td>
+                                                            <td><a href="{{ route('restorePassword',$student->id) }}" class="btn btn-danger">Restore</a></td>
+                                                            <td><a href="/auth/students/delete/{{$student->id}}" onclick="return confirm('Are you sure you want to delete this student?')" class="btn btn-danger">Delete</a></td>
                                                             @endif
                                                         </tr>
                                                     @endforeach
@@ -76,8 +61,6 @@
                         </div>
                     </div>
                 </div>
-        <!-- /.content -->
         </section>
     </div>
-    <!-- /.content-wrapper -->
     @include('admin.includes.footer')

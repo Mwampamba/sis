@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Imports\CourseImport;
-use App\Imports\CoursesImport;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Auth\CourseRequestForm;
+use App\Models\Semester;
 
 class CourseController extends Controller
 {
@@ -28,7 +28,9 @@ class CourseController extends Controller
             'title' => 'SIS | Add course'
         ];
 
-        return view('admin.courses.add-course', $title);
+        $semesters = Semester::where('status', true)->get();
+    
+        return view('admin.courses.add-course', $title, compact('semesters'));
     }
 
     public function save(CourseRequestForm $request)
@@ -36,8 +38,9 @@ class CourseController extends Controller
         $validatedData = $request->validated();
 
         $course = new Course();
-        $course->title = $validatedData['name'];
+        $course->title = $validatedData['title'];
         $course->code = $validatedData['code'];
+        $course->semester_id = $validatedData['semester'];
         $course->credit = $validatedData['credit'];
         $course->status = $validatedData['status'];
 
@@ -51,19 +54,21 @@ class CourseController extends Controller
             'title' => 'SIS | Update course'
         ];
 
+        $semesters = Semester::where('status', true)->get();
+
         $course = Course::findOrFail($course_id);
-        return view('admin.courses.edit-course', $title, compact('course'));
+        return view('admin.courses.edit-course', $title, compact('course', 'semesters'));
     }
 
-    public function update(CourseRequestForm $request, $course_id)
+    public function update(Request $request, $course_id)
     {
-        $course = Course::findOrFail($course_id);
-        $validatedData = $request->validated();
+        $course = Course::findOrFail($course_id); 
 
-        $course->title = $validatedData['name'];
-        $course->code = $validatedData['code'];
-        $course->credit = $validatedData['credit'];
-        $course->status = $validatedData['status'];
+        $course->title = $request->title;
+        $course->code = $request->code;
+        $course->semester_id = $request->semester;
+        $course->credit = $request->credit;
+        $course->status = $request->status;
 
         $course->update();
         return redirect()->route('courses')->with('success', 'Course has been updated successfully!');
@@ -72,11 +77,19 @@ class CourseController extends Controller
     public function destroy($course_id)
     {
         $course = Course::findOrFail($course_id);
-        $course->delete();
-        return redirect()->route('courses')->with('delete', 'Course has been deleted successfully!');
-    } 
+        if ($course->status == '1') {
+            $course->status = '0';
+            $course->update();
+            return redirect()->route('courses')->with('error', 'Course has been deactivated successfully!');
+        } else if ($course->status == '0') {
+            $course->status = '1';
+            $course->update();
+            return redirect()->route('courses')->with('error', 'Course has been activated successfully!');
+        }
+    }
 
-    public function bulk_add_courses(){
+    public function bulk_add_courses()
+    {
         $title = [
             'title' => 'SIS | Add course'
         ];
@@ -84,11 +97,11 @@ class CourseController extends Controller
         return view('admin.courses.bulk-add-courses', $title);
     }
 
-    public function bulk_save_courses(Request $request){
+    public function bulk_save_courses(Request $request)
+    {
 
         Excel::import(new CourseImport, $request->file);
 
         return redirect()->route('courses')->with('success', 'Course(s) has been added successfully!');
     }
-
 }

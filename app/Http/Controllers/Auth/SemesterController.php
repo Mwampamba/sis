@@ -14,7 +14,7 @@ class SemesterController extends Controller
         $title = [
             'title' => 'SIS | Semesters'
         ];
-        $semesters = Semester::orderBy('status', 'DESC')->get();
+        $semesters = Semester::where('status', true)->orderBy('created_at', 'DESC')->get();
 
         return view('admin.semesters.index', $title, compact('semesters'));
     }
@@ -25,7 +25,7 @@ class SemesterController extends Controller
             'title' => 'SIS | Add semester'
         ];
 
-        $years = AcademicYear::all();
+        $years = AcademicYear::where('status', true)->get();
 
         return view('admin.semesters.add-semester', $title, compact('years'));
     }
@@ -38,12 +38,11 @@ class SemesterController extends Controller
         $semester->name = $validatedData['name'];
         $semester->academic_year_id = $validatedData['year'];
         $semester->description = $validatedData['description'];
-        $semester->status = $request->status == true ? '1' : '0';
+        $semester->status = '1';
 
         $semester->save();
         return redirect()->route('semesters')->with('success', 'Semester has been added successfully!');
     }
-
 
     public function edit($semester_id)
     {
@@ -70,10 +69,39 @@ class SemesterController extends Controller
         return redirect()->route('semesters')->with('success', 'Semester has been updated successfully!');
     }
 
-    public function destroy($Semester_id)
+    public function deactivate($semester_id)
     {
-        $Semester = Semester::findOrFail($Semester_id);
-        $Semester->delete();
-        return redirect()->route('semesters')->with('delete', 'Semester has been deleted successfully!');
+        $semester = Semester::findOrFail($semester_id);
+
+        if ($semester) {
+            $semester->status = '0';
+            $semester->update();
+            return redirect()->route('semesters')->with('error', 'Semester has been deactivated!');
+        }
+    }
+
+    public function restore_semesters($semester_id)
+    {
+        $semester = Semester::findOrFail($semester_id);
+
+        if ($semester) {
+            $semester->status = '1';
+            $semester->update();
+            return redirect()->route('semesters')->with('success', 'Semester has been activated!');
+        }
+    }
+
+    public function deactivated_semesters()
+    {
+        $title = [
+            'title' => 'SIS | Deactivated semesters'
+        ];
+        $semesters = Semester::where('status', '0')->orderBy('created_at', 'DESC')->get();
+        return view('admin.semesters.archive', $title, compact('semesters'));
+    }
+
+    public function destroy($semester_id)
+    {
+        
     }
 }

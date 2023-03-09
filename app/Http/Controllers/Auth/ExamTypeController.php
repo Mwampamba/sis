@@ -31,7 +31,7 @@ class ExamTypeController extends Controller
         $validatedData = $request->validated();
 
         $exam = new ExamType();
-        $exam->exam_type = $validatedData['name'];
+        $exam->exam_type = $validatedData['exam_type'];
         $exam->description = $validatedData['description'];
         $exam->status = $request->status == true ? '1' : '0';
 
@@ -63,10 +63,19 @@ class ExamTypeController extends Controller
         return redirect()->route('examTypes')->with('success', 'Examination has been updated successfully!');
     }
 
-    public function destroy($exam_id)
+    public function deactivate($exam_id)
     {
         $exam = ExamType::findOrFail($exam_id);
-        $exam->delete();
-        return redirect()->route('examTypes')->with('delete', 'Examination has been deleted successfully!');
+
+        if($exam->status == '0'){
+            $exam->status = '1';
+            $exam->update();
+            return redirect()->route('examTypes')->with('error', 'Examination has been activated successfully!');
+        }
+        else if($exam->status == '1'){
+            $exam->status = '0';
+            $exam->update();
+            return redirect()->route('examTypes')->with('error', 'Examination has been deactivated successfully!');
+        }
     }
 }

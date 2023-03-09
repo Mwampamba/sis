@@ -24,13 +24,19 @@ class CourseRequestForm extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'title' => [
                 'required',
-                'string'
+                'unique:courses'
             ],
             'code' => [
+                'required',
+                'unique:courses'
+            ],
+
+            'semester' => [
                 'required'
             ],
+
             'status' => [
                 'required'
             ],

@@ -26,7 +26,7 @@ class ProgrammeRequestForm extends FormRequest
         return [
             'name' => [
                 'required',
-                'string'
+                'unique:programmes'
             ],
 
             'collage' => [

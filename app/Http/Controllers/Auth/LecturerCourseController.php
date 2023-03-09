@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Course;
 use App\Models\LecturerCourse;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
 use App\Http\Requests\Auth\LecturerCoursesRequestForm;
 
 class LecturerCourseController extends Controller
@@ -47,20 +48,25 @@ class LecturerCourseController extends Controller
         $lecturer_id = $validatedData['lecturer'];
         $courses = $validatedData['courses'];
 
-        $lecturer = User::findOrFail($lecturer_id);
-        if ($lecturer_id) {
-            $lecturer->courses()->attach($courses);
-
-            return redirect()->route('lecturerCourses')->with('success', 'Courses has been assign to lecturer successfully!');
+        try {
+            $lecturer = User::findOrFail($lecturer_id);
+            if ($lecturer_id) {
+                $lecturer->courses()->attach($courses);
+                return redirect()->route('lecturerCourses')->with('success', 'Courses has been assign to lecturer successfully!');
+            }
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1062) {
+                return redirect()->back()->with('error', 'Sorry, the course has lecturer already.');
+            }
         }
     }
 
     public function destroy($course_id, $lecturer)
     {
-        
         $course = Course::findOrFail($course_id);
         $course->lecturers()->detach($lecturer);
-       
+
         return redirect()->route('lecturerCourses')->with('delete', 'Course has been removed from lecturer successfully!');
     }
 }

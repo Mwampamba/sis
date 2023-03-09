@@ -24,7 +24,7 @@ class ExaminationRequestForm extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'exam_name' => [
                 'required'
             ],
 
@@ -40,14 +40,6 @@ class ExaminationRequestForm extends FormRequest
                 'required'
             ],
 
-            'starting_date' => [
-                'required'
-            ],
-
-            'ending_date' => [
-                'required'
-            ],
-
             'status' => [
                 'required'
             ],
@@ -57,7 +49,7 @@ class ExaminationRequestForm extends FormRequest
             ],
 
             'description' => [
-                'required'
+                'nullable'
             ]
         ];
     }

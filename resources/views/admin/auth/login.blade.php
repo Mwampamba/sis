@@ -17,15 +17,15 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href=""><b>Student Info's System</b></a>
+    <a href="{{ url('/')}}"><b>Student Info's System</b></a>
   </div>
   {{-- <div class="login-logo">
     <div class="col mx-auto">
       <div class="mb-4 text-center">
-        <img src="{{asset('admin-assets/dist/img/logo.png')}}" width="50%">
+        <img src="{{asset('admin-assets/dist/img/logo.png')}}" class="form-control rounded" width="15%">
       </div>
     </div>
-  </div> --}}
+  </div>   --}}
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body">
@@ -65,14 +65,11 @@
             <button type="submit" class="btn btn-primary btn-block">Sign in</button>
           </div>
           <div class="col-6">
-            <p class="mb-1">
-              <a href="{{ route('studentGetLogin')}}">Student? login here</a>
-            </p>
           </div>
           <!-- /.col -->
-          <div class="col-6">
-            <p class="mb-1">
-              <a href="{{ route('getForgotPassword')}}">Forgot password?</a>
+          <div class="col-12">
+            <p class="mb-3">
+              <a href="{{ route('getForgotPassword')}}" class="form-control float-right">Did you forgot your password? start here</a>
             </p>
           </div>
           <!-- /.col -->

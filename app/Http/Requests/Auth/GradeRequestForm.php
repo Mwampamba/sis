@@ -24,14 +24,13 @@ class GradeRequestForm extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'required',
-                'string'
-            ],
-            'markFrom' => [
+            'grade' => [
                 'required'
             ],
-            'markupTo' => [
+            'mark_from' => [
+                'required'
+            ],
+            'mark_up_to' => [
                 'required'
             ],
             'point' => [
@@ -39,10 +38,6 @@ class GradeRequestForm extends FormRequest
             ],
             'remarks' => [
                 'nullable'
-            ],
-            
-            'status' => [
-                'integer'
             ]
         ];
     }

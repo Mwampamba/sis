@@ -30,7 +30,8 @@ class LecturerRequestForm extends FormRequest
 
             'email' => [
                 'required',
-                'email'
+                'email',
+                'unique:users'
             ],
 
             'department' => [
@@ -38,11 +39,13 @@ class LecturerRequestForm extends FormRequest
             ],
 
             'phone' => [
-                'required'
+                'required',
+                'unique:users'
             ],
 
             'staff_id' => [
-                'required'
+                'required',
+                'unique:users'
             ],
 
             'role' => [

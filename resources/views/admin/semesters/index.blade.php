@@ -1,43 +1,26 @@
 @include('admin.includes.header')
 
 <body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-    <!-- Navbar -->
-    @include('admin.includes.navbar')
-
-    <!-- Main Sidebar Container -->
-
-    @include('admin.includes.sidebar')
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
+    <div class="wrapper"> 
+    @include('admin.includes.navbar') 
+    @include('admin.includes.sidebar') 
+    <div class="content-wrapper"> 
         <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-            <div class="col-sm-6">
-                <h3 class="m-0">Semesters</h3>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Semesters</li>
-                </ol>
-            </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-
-        <!-- Main content -->
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div> 
+            </div> 
+        </div> 
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <a href="#" class="btn btn-primary float-left">Bulk import semesters</a> 
-                                            <a href="{{ route('addSemester')}}" class="btn btn-success float-right">Add semester</a> 
+                                        <h3>Semesters
+                                            <a href="{{ route('addSemester')}}" class="btn btn-success float-right">Add new semester</a>
+                                            <a href="{{ route('getDeactivatedSemesters')}}" class="btn btn-danger float-right" style="margin-right: 5px;">View deactivated semesters</a> 
+                                        </h3>  
                                     </div>
                                         <div class="card-body">
                                             <div class="card">
@@ -45,24 +28,22 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Name</th>   
-                                                        <th>Academic year</th>  
-                                                        <th>Status</th>  
-                                                        <th>Created at</th>                                      
-                                                        <th>Edit</th>
-                                                        <th>Delete</th>
+                                                        <th>Semester | Academic year</th>    
+                                                        <th>Description</th>  
+                                                        <th>Status</th>                                      
+                                                        <th>Action</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach($semesters as $index=>$semester)
                                                         <tr>
                                                             <td>{{ $index+1 }}</td>
-                                                            <td>{{ $semester->name }}</td>
-                                                            <td>{{ $semester->academic_year->name }}</td>
-                                                            <td>{{ $semester->status == 1 ? 'Active' : 'Not active' }}</td>
-                                                            <td>{{ $semester->created_at->diffForHumans() }}</td>
-                                                            <td><a href="/auth/semesters/{{$semester->id}}" class="btn btn-warning">Edit</a></td>
-                                                            <td><a href="/auth/semesters/delete/{{$semester->id}}" onclick="return confirm('Are you sure you want to delete this semester?')" class="btn btn-danger">Delete</a></td>
+                                                            <td>{{ $semester->name }} :: {{ $semester->academic_year->name }}</td>
+                                                            <td>{{ $semester->description}}</td>
+                                                            <td>{{ $semester->status == 1 ? 'Active' : 'Deactivated' }}</td>
+                                                            <td><a href="{{ route('editSemester', $semester->id) }}" class="btn btn-warning">Edit</a></td>
+                                                            <td><a href="{{ route('deactivateSemester', $semester->id) }}" onclick="return confirm('Are you sure you want to deactivate this semester?')" class="btn btn-danger">Deactivate</a></td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -71,9 +52,7 @@
                                 </div>
                         </div>
                     </div>
-                </div>
-        <!-- /.content -->
+                </div> 
         </section>
     </div>
-    <!-- /.content-wrapper -->
     @include('admin.includes.footer')
